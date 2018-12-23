@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes'
+import _ from 'lodash';
+import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes';
 
 const BED_CAPACITIES = {
   [KING]: 2,
@@ -8,7 +8,13 @@ const BED_CAPACITIES = {
   [TWIN]: 1
 };
 
-// TODO research if `set` will help here, instead of using an int called capacity
+const BED_WEIGHTS = {
+  [KING]: 4,
+  [QUEEN]: 3,
+  [FULL]: 2,
+  [TWIN]: 1
+};
+
 export default class Assigner {
   constructor(guests, beds) {
     this.guests = guests;
@@ -16,38 +22,50 @@ export default class Assigner {
   }
 
   sortBeds(beds) {
-    const BED_WEIGHTS = {
-      [KING]: 4,
-      [QUEEN]: 3,
-      [FULL]: 2,
-      [TWIN]: 1
-    };
-
-    return beds.sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
+    return beds.slice().sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
   }
 
   assign() {
-    const result = [];
     const shuffledGuests = _.shuffle(this.guests);
-    let currentBedIdx = 0;
-    let currentBed = this.sortedBeds[currentBedIdx];
-    let currentBedCapacity = BED_CAPACITIES[currentBed.type];
+    if (this.areMoreBedsThanGuests()) {
+      return this.assignOnePersonPerBed(shuffledGuests);
+    } else {
+      return this.fillBeds(shuffledGuests);
+    }
+  }
 
-    for (let guest of shuffledGuests) {
-      currentBed.guests.push(guest);
-      currentBedCapacity--;
-      if (currentBedCapacity < 1) {
-        result.push(currentBed);
-        currentBedIdx++;
-        if (currentBedIdx >= this.sortedBeds.length) {
-          break;
-        }
+  areMoreBedsThanGuests() {
+    this.guests.length < this.sortedBeds.length
+  }
 
-        currentBed = this.sortedBeds[currentBedIdx];
-        currentBedCapacity = BED_CAPACITIES[currentBed.type];
+  assignOnePersonPerBed(guests) {
+    return _.map(this.sortedBeds, (bed, index) => {
+      if (index >= guests.length) {
+        return bed;
       }
+      const currentGuest = guests[index]
+
+      return Object.assign({}, bed, {
+        guests: [currentGuest]
+      })
+    })
+  }
+
+  fillBeds(guests) {
+    if (guests.length < this.sortedBeds.length) {
+      throw Error('expected more beds than peole, use assignOnePersonPerBed')
     }
 
-    return result;
+    let guestIndex = 0;
+    return _.map(this.sortedBeds, (bed) => {
+      let bedCapacity = BED_CAPACITIES[bed.type];
+      bed = _.cloneDeep(bed)
+      while (bedCapacity > 0) {
+        bed.guests.push(guests[guestIndex])
+        guestIndex++
+        bedCapacity--
+      }
+      return bed;
+    })
   }
 }

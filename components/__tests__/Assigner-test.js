@@ -3,7 +3,7 @@ import _ from 'lodash';
 import sinon from 'sinon'
 import Assigner from '../Assigner'
 
-const sandbox = sinon.sandbox.create()
+const sandbox = sinon.createSandbox()
 
 beforeEach(() => {
   sandbox.stub(_, 'shuffle').callsFake(a => a)
@@ -47,9 +47,27 @@ it('assigns beds correctly', () => {
 });
 
 it('works when there are more people than beds', () => {
-
+  const dummyGuests = ['tyler', 'josh', 'cheryl'];
+  const lessBeds = [
+    { type: 'twin', name: 'upstairs twin', guests: [] },
+  ]
+  const assigner = new Assigner(dummyGuests, lessBeds);
+  const result = assigner.assign();
+  expect(result).toEqual([
+    { type: 'twin', name: 'upstairs twin', guests: ['tyler'] },
+  ]);
 });
 
-it('works when there are more beds than people', () => {
-  
+it('assigns everyone their own bed when there are more beds than people', () => {
+  const dummyGuests = ['tyler', 'josh', 'cheryl'];
+  console.log(dummyBeds);
+  const assigner = new Assigner(dummyGuests, dummyBeds);
+  const result = assigner.assign();
+  expect(result).toEqual([
+    { type: 'queen', name: 'master', guests: ['tyler'] },
+    { type: 'full', name: 'upstairs full', guests: ['josh'] },
+    { type: 'full', name: 'couch', guests: ['cheryl'] },
+    { type: 'twin', name: 'upstairs twin', guests: [] },
+    { type: 'twin', name: 'upstairs twin', guests: [] },
+  ]);
 });
