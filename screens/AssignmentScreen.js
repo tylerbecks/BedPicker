@@ -3,9 +3,21 @@ import _ from 'lodash';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import GuestButton from '../components/GuestButton';
 
+const DEFAULT_GUESTS = [
+  'Aaron',
+  'Cheryl',
+  'Daniel',
+  'Jeremy',
+  'Josh',
+  'Noah',
+  'Raj',
+  'Tyler'
+];
+
 export default class AssignmentScreen extends React.Component {
   state = {
-    selectedGuests: []
+    selectedGuests: [],
+    guests: DEFAULT_GUESTS
   };
 
   onPressGuest = guestName => {
@@ -24,14 +36,13 @@ export default class AssignmentScreen extends React.Component {
         >
           <Text style={styles.titleText}>Bed assignment:</Text>
           <View style={styles.buttonsContainer}>
-            <GuestButton guestName="Aaron" onPress={this.onPressGuest} />
-            <GuestButton guestName="Cheryl" onPress={this.onPressGuest} />
-            <GuestButton guestName="Daniel" onPress={this.onPressGuest} />
-            <GuestButton guestName="Jeremy" onPress={this.onPressGuest} />
-            <GuestButton guestName="Josh" onPress={this.onPressGuest} />
-            <GuestButton guestName="Noah" onPress={this.onPressGuest} />
-            <GuestButton guestName="Raj" onPress={this.onPressGuest} />
-            <GuestButton guestName="Tyler" onPress={this.onPressGuest} />
+            {this.state.guests.map(guest => (
+              <GuestButton
+                key={guest}
+                guestName={guest}
+                onPress={this.onPressGuest}
+              />
+            ))}
           </View>
           <Text style={styles.titleText}>
             {this.state.selectedGuests.join(', ')}
