@@ -1,13 +1,16 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import AssignmentScreen from '../screens/AssignmentScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
@@ -21,11 +24,11 @@ HomeStack.navigationOptions = {
           : 'md-information-circle'
       }
     />
-  ),
+  )
 };
 
 const BedStack = createStackNavigator({
-  Bed: AssignmentScreen,
+  Bed: AssignmentScreen
 });
 
 BedStack.navigationOptions = {
@@ -35,10 +38,10 @@ BedStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === 'ios' ? 'ios-bed' : 'md-bed'}
     />
-  ),
+  )
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
   BedStack,
+  HomeStack
 });

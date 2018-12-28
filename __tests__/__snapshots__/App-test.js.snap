@@ -108,7 +108,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                       "bottom": 0,
                       "left": 0,
                       "opacity": 1,
-                      "paddingTop": 0,
+                      "paddingTop": 64,
                       "position": "absolute",
                       "right": 0,
                       "shadowColor": "black",
@@ -137,68 +137,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                         "flex": 1,
                       }
                     }
-                  >
-                    <View
-                      style={
-                        Object {
-                          "alignItems": "center",
-                          "backgroundColor": "#fbfbfb",
-                          "bottom": 0,
-                          "left": 0,
-                          "paddingVertical": 20,
-                          "position": "absolute",
-                          "right": 0,
-                          "shadowColor": "black",
-                          "shadowOffset": Object {
-                            "height": -3,
-                          },
-                          "shadowOpacity": 0.1,
-                          "shadowRadius": 3,
-                        }
-                      }
-                    >
-                      <Text
-                        style={
-                          Object {
-                            "color": "rgba(96,100,109, 1)",
-                            "fontSize": 17,
-                            "textAlign": "center",
-                          }
-                        }
-                      >
-                        This is a tab bar. You can edit it in:
-                      </Text>
-                      <View
-                        style={
-                          Array [
-                            Object {
-                              "backgroundColor": "rgba(0,0,0,0.05)",
-                              "borderRadius": 3,
-                              "paddingHorizontal": 4,
-                            },
-                            Object {
-                              "marginTop": 5,
-                            },
-                          ]
-                        }
-                      >
-                        <Text
-                          style={
-                            Array [
-                              Object {
-                                "color": "rgba(96,100,109, 0.8)",
-                              },
-                              Object {
-                                "fontFamily": "space-mono",
-                              },
-                            ]
-                          }
-                        >
-                          navigation/MainTabNavigator.js
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
+                  />
                 </View>
               </View>
               <View
@@ -219,7 +158,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                       "backgroundColor": "#FFF",
                       "transform": Array [
                         Object {
-                          "translateX": -750,
+                          "translateX": 0,
                         },
                       ],
                     }
@@ -247,7 +186,55 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                           "flex": 1,
                         }
                       }
-                    />
+                    >
+                      <View
+                        style={
+                          Object {
+                            "bottom": 0,
+                            "flexDirection": "row",
+                            "left": 0,
+                            "position": "absolute",
+                            "right": 0,
+                            "top": 0,
+                          }
+                        }
+                      >
+                        <View
+                          pointerEvents="box-none"
+                          style={
+                            Object {
+                              "alignItems": "center",
+                              "backgroundColor": "transparent",
+                              "bottom": 0,
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                              "left": 0,
+                              "opacity": 1,
+                              "position": "absolute",
+                              "right": 0,
+                              "top": 0,
+                            }
+                          }
+                        >
+                          <Text
+                            accessibilityTraits="header"
+                            accessible={false}
+                            allowFontScaling={true}
+                            numberOfLines={1}
+                            onLayout={[Function]}
+                            style={
+                              Object {
+                                "color": "rgba(0, 0, 0, .9)",
+                                "fontSize": 17,
+                                "fontWeight": "600",
+                                "marginHorizontal": 16,
+                                "textAlign": "center",
+                              }
+                            }
+                          />
+                        </View>
+                      </View>
+                    </View>
                   </View>
                 </View>
               </View>
@@ -273,6 +260,136 @@ exports[`App snapshot renders the root without loading screen 1`] = `
         }
       }
     >
+      <View
+        accessibilityLabel="Beds"
+        accessible={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+            },
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Object {
+              "flexDirection": "column",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 29,
+              },
+              false,
+              Object {
+                "flex": 1,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 1,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#2f95dc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 0,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#ccc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <Text
+          allowFontScaling={true}
+          numberOfLines={1}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#3478f6",
+              "fontSize": 11,
+              "marginBottom": 1.5,
+              "textAlign": "center",
+            }
+          }
+        >
+          Beds
+        </Text>
+      </View>
       <View
         accessibilityLabel="Home"
         accessible={true}
@@ -320,7 +437,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 "height": "100%",
                 "justifyContent": "center",
                 "minWidth": 25,
-                "opacity": 1,
+                "opacity": 0,
                 "position": "absolute",
                 "width": "100%",
               }
@@ -357,7 +474,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 "height": "100%",
                 "justifyContent": "center",
                 "minWidth": 25,
-                "opacity": 0,
+                "opacity": 1,
                 "position": "absolute",
                 "width": "100%",
               }
@@ -393,7 +510,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
           style={
             Object {
               "backgroundColor": "transparent",
-              "color": "#3478f6",
+              "color": "#929292",
               "fontSize": 11,
               "marginBottom": 1.5,
               "textAlign": "center",
@@ -401,266 +518,6 @@ exports[`App snapshot renders the root without loading screen 1`] = `
           }
         >
           Home
-        </Text>
-      </View>
-      <View
-        accessibilityLabel="Links"
-        accessible={true}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "flex": 1,
-            },
-            Object {
-              "backgroundColor": "transparent",
-            },
-            Object {
-              "flexDirection": "column",
-              "justifyContent": "flex-end",
-            },
-            undefined,
-          ]
-        }
-      >
-        <View
-          style={
-            Array [
-              Object {
-                "height": 29,
-              },
-              false,
-              Object {
-                "flex": 1,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "height": "100%",
-                "justifyContent": "center",
-                "minWidth": 25,
-                "opacity": 0,
-                "position": "absolute",
-                "width": "100%",
-              }
-            }
-          >
-            <Text
-              allowFontScaling={false}
-              style={
-                Array [
-                  Object {
-                    "color": "#2f95dc",
-                    "fontSize": 26,
-                  },
-                  Object {
-                    "marginBottom": -3,
-                  },
-                  Object {
-                    "fontFamily": "ionicons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  Object {},
-                ]
-              }
-            >
-              
-            </Text>
-          </View>
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "height": "100%",
-                "justifyContent": "center",
-                "minWidth": 25,
-                "opacity": 1,
-                "position": "absolute",
-                "width": "100%",
-              }
-            }
-          >
-            <Text
-              allowFontScaling={false}
-              style={
-                Array [
-                  Object {
-                    "color": "#ccc",
-                    "fontSize": 26,
-                  },
-                  Object {
-                    "marginBottom": -3,
-                  },
-                  Object {
-                    "fontFamily": "ionicons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  Object {},
-                ]
-              }
-            >
-              
-            </Text>
-          </View>
-        </View>
-        <Text
-          allowFontScaling={true}
-          numberOfLines={1}
-          style={
-            Object {
-              "backgroundColor": "transparent",
-              "color": "#929292",
-              "fontSize": 11,
-              "marginBottom": 1.5,
-              "textAlign": "center",
-            }
-          }
-        >
-          Links
-        </Text>
-      </View>
-      <View
-        accessibilityLabel="Settings"
-        accessible={true}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "flex": 1,
-            },
-            Object {
-              "backgroundColor": "transparent",
-            },
-            Object {
-              "flexDirection": "column",
-              "justifyContent": "flex-end",
-            },
-            undefined,
-          ]
-        }
-      >
-        <View
-          style={
-            Array [
-              Object {
-                "height": 29,
-              },
-              false,
-              Object {
-                "flex": 1,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "height": "100%",
-                "justifyContent": "center",
-                "minWidth": 25,
-                "opacity": 0,
-                "position": "absolute",
-                "width": "100%",
-              }
-            }
-          >
-            <Text
-              allowFontScaling={false}
-              style={
-                Array [
-                  Object {
-                    "color": "#2f95dc",
-                    "fontSize": 26,
-                  },
-                  Object {
-                    "marginBottom": -3,
-                  },
-                  Object {
-                    "fontFamily": "ionicons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  Object {},
-                ]
-              }
-            >
-              
-            </Text>
-          </View>
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "height": "100%",
-                "justifyContent": "center",
-                "minWidth": 25,
-                "opacity": 1,
-                "position": "absolute",
-                "width": "100%",
-              }
-            }
-          >
-            <Text
-              allowFontScaling={false}
-              style={
-                Array [
-                  Object {
-                    "color": "#ccc",
-                    "fontSize": 26,
-                  },
-                  Object {
-                    "marginBottom": -3,
-                  },
-                  Object {
-                    "fontFamily": "ionicons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  Object {},
-                ]
-              }
-            >
-              
-            </Text>
-          </View>
-        </View>
-        <Text
-          allowFontScaling={true}
-          numberOfLines={1}
-          style={
-            Object {
-              "backgroundColor": "transparent",
-              "color": "#929292",
-              "fontSize": 11,
-              "marginBottom": 1.5,
-              "textAlign": "center",
-            }
-          }
-        >
-          Settings
         </Text>
       </View>
     </View>
