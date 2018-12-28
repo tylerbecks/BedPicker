@@ -1,6 +1,10 @@
 import _ from 'lodash';
 import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes';
 
+// for couples, make them an array, this will keep them together during the shuffle
+// TODO: figure out how to keep them in same room/bed, putting them on an even number would work.
+// e.g. ['tyler', ['josh', 'cheryl'], 'noah']
+
 const BED_CAPACITIES = {
   [KING]: 2,
   [QUEEN]: 2,
@@ -27,15 +31,11 @@ export default class Assigner {
 
   assign() {
     const shuffledGuests = _.shuffle(this.guests);
-    if (this.areMoreBedsThanGuests()) {
+    if (this.guests.length <= this.sortedBeds.length) {
       return this.assignOnePersonPerBed(shuffledGuests);
     } else {
       return this.fillBeds(shuffledGuests);
     }
-  }
-
-  areMoreBedsThanGuests() {
-    this.guests.length < this.sortedBeds.length
   }
 
   assignOnePersonPerBed(guests) {

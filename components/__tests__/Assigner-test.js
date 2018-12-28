@@ -60,7 +60,6 @@ it('works when there are more people than beds', () => {
 
 it('assigns everyone their own bed when there are more beds than people', () => {
   const dummyGuests = ['tyler', 'josh', 'cheryl'];
-  console.log(dummyBeds);
   const assigner = new Assigner(dummyGuests, dummyBeds);
   const result = assigner.assign();
   expect(result).toEqual([
