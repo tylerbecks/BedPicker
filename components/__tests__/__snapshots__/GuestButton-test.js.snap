@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with blue background when selected 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "blue",
+      "borderRadius": 90,
+      "height": 90,
+      "justifyContent": "center",
+      "margin": 10,
+      "opacity": 1,
+      "padding": 10,
+      "width": 90,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    foo
+  </Text>
+</View>
+`;
+
+exports[`renders with gray background when not selected 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#CFD8DC",
+      "borderRadius": 90,
+      "height": 90,
+      "justifyContent": "center",
+      "margin": 10,
+      "opacity": 1,
+      "padding": 10,
+      "width": 90,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    foo
+  </Text>
+</View>
+`;

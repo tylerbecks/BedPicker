@@ -1,17 +1,8 @@
-import 'react-native'
+import 'react-native';
 import _ from 'lodash';
-import sinon from 'sinon'
-import Assigner from '../Assigner'
+import Assigner from '../Assigner';
 
-const sandbox = sinon.createSandbox()
-
-beforeEach(() => {
-  sandbox.stub(_, 'shuffle').callsFake(a => a)
-});
-
-afterEach(() => {
-  sandbox.restore();
-});
+_.shuffle = jest.fn(x => x);
 
 const dummyBeds = [
   { type: 'twin', name: 'upstairs twin', guests: [] },
@@ -29,11 +20,11 @@ it('sorts beds with bigger beds first', () => {
     { type: 'full', name: 'upstairs full', guests: [] },
     { type: 'full', name: 'couch', guests: [] },
     { type: 'twin', name: 'upstairs twin', guests: [] },
-    { type: 'twin', name: 'upstairs twin', guests: [] },
+    { type: 'twin', name: 'upstairs twin', guests: [] }
   ]);
 });
 
-it('assigns beds correctly', () => {
+it('assigns each person a spot when there is exactly one spot per person', () => {
   const dummyGuests = ['tyler', 'josh', 'cheryl', 'jeremy', 'noah', 'aaron'];
   const assigner = new Assigner(dummyGuests, dummyBeds);
   const result = assigner.assign();
@@ -42,19 +33,17 @@ it('assigns beds correctly', () => {
     { type: 'full', name: 'upstairs full', guests: ['cheryl'] },
     { type: 'full', name: 'couch', guests: ['jeremy'] },
     { type: 'twin', name: 'upstairs twin', guests: ['noah'] },
-    { type: 'twin', name: 'upstairs twin', guests: ['aaron'] },
+    { type: 'twin', name: 'upstairs twin', guests: ['aaron'] }
   ]);
 });
 
 it('works when there are more people than beds', () => {
   const dummyGuests = ['tyler', 'josh', 'cheryl'];
-  const lessBeds = [
-    { type: 'twin', name: 'upstairs twin', guests: [] },
-  ]
+  const lessBeds = [{ type: 'twin', name: 'upstairs twin', guests: [] }];
   const assigner = new Assigner(dummyGuests, lessBeds);
   const result = assigner.assign();
   expect(result).toEqual([
-    { type: 'twin', name: 'upstairs twin', guests: ['tyler'] },
+    { type: 'twin', name: 'upstairs twin', guests: ['tyler'] }
   ]);
 });
 
@@ -67,6 +56,6 @@ it('assigns everyone their own bed when there are more beds than people', () => 
     { type: 'full', name: 'upstairs full', guests: ['josh'] },
     { type: 'full', name: 'couch', guests: ['cheryl'] },
     { type: 'twin', name: 'upstairs twin', guests: [] },
-    { type: 'twin', name: 'upstairs twin', guests: [] },
+    { type: 'twin', name: 'upstairs twin', guests: [] }
   ]);
 });

@@ -21,10 +21,11 @@ export default class AssignmentScreen extends React.Component {
   };
 
   onPressGuest = guestName => {
-    // TODO
-    this.setState({
-      selectedGuests: _.concat(this.state.selectedGuests, guestName)
-    });
+    const selectedGuests = this.state.selectedGuests.includes(guestName)
+      ? _.without(this.state.selectedGuests, guestName)
+      : _.concat(this.state.selectedGuests, guestName);
+
+    this.setState({ selectedGuests });
   };
 
   render() {
@@ -41,6 +42,7 @@ export default class AssignmentScreen extends React.Component {
                 key={guest}
                 guestName={guest}
                 onPress={this.onPressGuest}
+                selected={this.state.selectedGuests.includes(guest)}
               />
             ))}
           </View>

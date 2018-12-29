@@ -1,14 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const GuestButton = ({ guestName, onPress }) => (
+const GuestButton = ({ guestName, onPress, selected }) => (
   <TouchableOpacity
-    style={styles.button}
+    style={
+      selected ? { ...styles.button, ...styles.selectedButton } : styles.button
+    }
     onPress={() => {
       onPress(guestName);
     }}
   >
-    <Text style={styles.text}>{guestName}</Text>
+    <Text
+      style={
+        selected ? { ...styles.text, ...styles.selectedText } : styles.text
+      }
+    >
+      {guestName}
+    </Text>
   </TouchableOpacity>
 );
 
@@ -19,7 +27,7 @@ const BUTTON_SIZE = 90;
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: '#CFD8DC',
     borderRadius: BUTTON_SIZE,
     height: BUTTON_SIZE,
     justifyContent: 'center',
@@ -27,8 +35,14 @@ const styles = StyleSheet.create({
     width: BUTTON_SIZE,
     margin: 10
   },
+  selectedButton: {
+    backgroundColor: 'blue'
+  },
+  selectedText: {
+    color: 'white'
+  },
   text: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold'
   }
 });

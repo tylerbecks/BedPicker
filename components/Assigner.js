@@ -26,7 +26,9 @@ export default class Assigner {
   }
 
   sortBeds(beds) {
-    return beds.slice().sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
+    return beds
+      .slice()
+      .sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
   }
 
   assign() {
@@ -43,29 +45,29 @@ export default class Assigner {
       if (index >= guests.length) {
         return bed;
       }
-      const currentGuest = guests[index]
+      const currentGuest = guests[index];
 
       return Object.assign({}, bed, {
         guests: [currentGuest]
-      })
-    })
+      });
+    });
   }
 
   fillBeds(guests) {
     if (guests.length < this.sortedBeds.length) {
-      throw Error('expected more beds than peole, use assignOnePersonPerBed')
+      throw Error('expected more beds than people, use assignOnePersonPerBed');
     }
 
     let guestIndex = 0;
-    return _.map(this.sortedBeds, (bed) => {
+    return _.map(this.sortedBeds, bed => {
       let bedCapacity = BED_CAPACITIES[bed.type];
-      bed = _.cloneDeep(bed)
+      bed = _.cloneDeep(bed);
       while (bedCapacity > 0) {
-        bed.guests.push(guests[guestIndex])
-        guestIndex++
-        bedCapacity--
+        bed.guests.push(guests[guestIndex]);
+        guestIndex++;
+        bedCapacity--;
       }
       return bed;
-    })
+    });
   }
 }
