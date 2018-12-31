@@ -59,7 +59,6 @@ export default class AssignmentScreen extends React.Component {
             onPress={this.onSubmit}
             disabled={this.state.selectedGuests.length === 0}
           />
-          <Text>{JSON.stringify(this.state.assignment)}</Text>
         </ScrollView>
       </View>
     );

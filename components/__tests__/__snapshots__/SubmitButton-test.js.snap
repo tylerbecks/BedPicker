@@ -27,7 +27,7 @@ exports[`renders with blue background when selected 1`] = `
     style={
       Object {
         "color": "white",
-        "fontSize": 18,
+        "fontSize": 20,
         "fontWeight": "bold",
       }
     }

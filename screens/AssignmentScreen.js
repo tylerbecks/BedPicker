@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import BedSection from '../components/BedSection';
 import Assigner from '../components/Assigner';
 
@@ -23,18 +23,31 @@ export default class AssignmentScreen extends React.Component {
   };
 
   componentDidMount() {
-    const selectedGuests = this.props.navigation.getParam('selectedGuests', []);
+    this.setAssignment(this.props.navigation);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setAssignment(nextProps.navigation);
+  }
+
+  setAssignment = navigation => {
+    const selectedGuests = navigation.getParam('selectedGuests', []);
     const assigner = new Assigner(selectedGuests, tahoeBeds);
     this.setState({ assignment: assigner.assign() });
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.assignment &&
-          this.state.assignment.map(({ type, name, guests }, index) => (
-            <BedSection key={index} type={type} name={name} guests={guests} />
-          ))}
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          {this.state.assignment &&
+            this.state.assignment.map(({ type, name, guests }, index) => (
+              <BedSection key={index} type={type} name={name} guests={guests} />
+            ))}
+        </ScrollView>
       </View>
     );
   }
@@ -44,5 +57,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff'
+  },
+  contentContainer: {
+    paddingBottom: 20
   }
 });

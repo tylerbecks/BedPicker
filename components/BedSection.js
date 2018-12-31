@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Card, ListItem } from 'react-native-elements';
 
 const BedSection = ({ type, name, guests }) => (
-  <View>
-    <Text style={styles.title}>{type}</Text>
-    <Text>{name}</Text>
-    {guests.map(guest => (
-      <Text>{guest}</Text>
-    ))}
-  </View>
+  <Card title={name}>
+    <View>
+      {guests.map((guest, index) => (
+        <ListItem
+          key={index}
+          // roundAvatar
+          title={guest}
+          // avatar={{ uri: u.avatar }}
+        />
+      ))}
+    </View>
+  </Card>
 );
 
 export default BedSection;
