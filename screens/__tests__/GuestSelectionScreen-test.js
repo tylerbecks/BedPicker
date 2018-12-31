@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import AssignmentScreen from '../AssignmentScreen';
+import AssignmentScreen from '../GuestSelectionScreen';
 import renderer from 'react-test-renderer';
 
 it('renders', () => {

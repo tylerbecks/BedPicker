@@ -6,33 +6,29 @@ import {
 } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
 import AssignmentScreen from '../screens/AssignmentScreen';
+import GuestSelectionScreen from '../screens/GuestSelectionScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen
+const GuestSelectionStack = createStackNavigator({
+  GuestSelection: GuestSelectionScreen
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+GuestSelectionStack.navigationOptions = {
+  tabBarLabel: 'Create',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === 'ios' ? 'ios-people' : 'md-people'}
     />
   )
 };
 
-const BedStack = createStackNavigator({
-  Bed: AssignmentScreen
+const AssignmentStack = createStackNavigator({
+  Assignment: AssignmentScreen
 });
 
-BedStack.navigationOptions = {
-  tabBarLabel: 'Beds',
+AssignmentStack.navigationOptions = {
+  tabBarLabel: 'Assignment',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -42,6 +38,6 @@ BedStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  BedStack,
-  HomeStack
+  GuestSelectionStack,
+  AssignmentStack
 });

@@ -261,7 +261,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
       }
     >
       <View
-        accessibilityLabel="Beds"
+        accessibilityLabel="Create"
         accessible={true}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -333,7 +333,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
           <View
@@ -370,7 +370,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
         </View>
@@ -387,11 +387,11 @@ exports[`App snapshot renders the root without loading screen 1`] = `
             }
           }
         >
-          Beds
+          Create
         </Text>
       </View>
       <View
-        accessibilityLabel="Home"
+        accessibilityLabel="Assignment"
         accessible={true}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -463,7 +463,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
           <View
@@ -500,7 +500,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
         </View>
@@ -517,7 +517,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
             }
           }
         >
-          Home
+          Assignment
         </Text>
       </View>
     </View>

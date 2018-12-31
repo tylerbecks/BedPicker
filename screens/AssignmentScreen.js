@@ -1,75 +1,48 @@
 import React from 'react';
-import _ from 'lodash';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import GuestButton from '../components/GuestButton';
+import { StyleSheet, View } from 'react-native';
+import BedSection from '../components/BedSection';
+import Assigner from '../components/Assigner';
 
-const DEFAULT_GUESTS = [
-  'Aaron',
-  'Cheryl',
-  'Daniel',
-  'Jeremy',
-  'Josh',
-  'Noah',
-  'Raj',
-  'Tyler'
+const tahoeBeds = [
+  { type: 'twin', name: 'upstairs twin', guests: [] },
+  { type: 'queen', name: 'master', guests: [] },
+  { type: 'twin', name: 'upstairs twin', guests: [] },
+  { type: 'full', name: 'upstairs full', guests: [] },
+  { type: 'full', name: 'couch', guests: [] }
 ];
+
+//  bed: {
+//    type: string
+//    name: string
+//    guests: [string]
+//  }
 
 export default class AssignmentScreen extends React.Component {
   state = {
-    selectedGuests: [],
-    guests: DEFAULT_GUESTS
+    assignment: null
   };
 
-  onPressGuest = guestName => {
-    const selectedGuests = this.state.selectedGuests.includes(guestName)
-      ? _.without(this.state.selectedGuests, guestName)
-      : _.concat(this.state.selectedGuests, guestName);
-
-    this.setState({ selectedGuests });
-  };
+  componentDidMount() {
+    const selectedGuests = this.props.navigation.getParam('selectedGuests', []);
+    const assigner = new Assigner(selectedGuests, tahoeBeds);
+    this.setState({ assignment: assigner.assign() });
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <Text style={styles.titleText}>Bed assignment:</Text>
-          <View style={styles.buttonsContainer}>
-            {this.state.guests.map(guest => (
-              <GuestButton
-                key={guest}
-                guestName={guest}
-                onPress={this.onPressGuest}
-                selected={this.state.selectedGuests.includes(guest)}
-              />
-            ))}
-          </View>
-          <Text style={styles.titleText}>
-            {this.state.selectedGuests.join(', ')}
-          </Text>
-        </ScrollView>
+        {this.state.assignment &&
+          this.state.assignment.map(({ type, name, guests }, index) => (
+            <BedSection key={index} type={type} name={name} guests={guests} />
+          ))}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    flexWrap: 'wrap'
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff'
-  },
-  contentContainer: {
-    paddingTop: 30,
-    paddingHorizontal: 20
-  },
-  titleText: {
-    textAlign: 'center'
   }
 });
