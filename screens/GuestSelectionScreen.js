@@ -5,14 +5,15 @@ import GuestButton from '../components/GuestButton';
 import SubmitButton from '../components/SubmitButton';
 
 const DEFAULT_GUESTS = [
-  'Aaron',
-  'Cheryl',
-  'Daniel',
-  'Jeremy',
-  'Josh',
-  'Noah',
-  'Raj',
-  'Tyler'
+  { name: 'Aaron', photo: require('../assets/images/aaron.jpg') },
+  { name: 'Barak', photo: require('../assets/images/barak.jpg') },
+  { name: 'Cheryl', photo: require('../assets/images/cheryl.jpg') },
+  { name: 'Daniel', photo: require('../assets/images/daniel.jpg') },
+  { name: 'Jeremy', photo: require('../assets/images/jeremy.jpg') },
+  { name: 'Josh', photo: require('../assets/images/josh.jpg') },
+  { name: 'Noah', photo: require('../assets/images/noah.jpg') },
+  { name: 'Raj', photo: require('../assets/images/raj.jpg') },
+  { name: 'Tyler', photo: require('../assets/images/tyler.jpg') }
 ];
 
 export default class AssignmentScreen extends React.Component {
@@ -22,10 +23,10 @@ export default class AssignmentScreen extends React.Component {
     assignment: null
   };
 
-  onPressGuest = guestName => {
-    const selectedGuests = this.state.selectedGuests.includes(guestName)
-      ? _.without(this.state.selectedGuests, guestName)
-      : _.concat(this.state.selectedGuests, guestName);
+  onPressGuest = guest => {
+    const selectedGuests = this.state.selectedGuests.includes(guest)
+      ? _.without(this.state.selectedGuests, guest)
+      : _.concat(this.state.selectedGuests, guest);
 
     this.setState({ selectedGuests });
   };
@@ -46,11 +47,11 @@ export default class AssignmentScreen extends React.Component {
         >
           <Text style={styles.titleText}>Who's here?</Text>
           <View style={styles.guestButtonsContainer}>
-            {this.state.guests.map(guest => (
+            {this.state.guests.map((guest, index) => (
               <GuestButton
-                key={guest}
-                guestName={guest}
-                onPress={this.onPressGuest}
+                key={index}
+                guest={guest}
+                onPress={() => this.onPressGuest(guest)}
                 selected={this.state.selectedGuests.includes(guest)}
               />
             ))}

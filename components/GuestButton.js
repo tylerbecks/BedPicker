@@ -1,22 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const GuestButton = ({ guestName, onPress, selected }) => (
-  <TouchableOpacity
-    style={
-      selected ? { ...styles.button, ...styles.selectedButton } : styles.button
-    }
-    onPress={() => {
-      onPress(guestName);
-    }}
-  >
-    <Text
-      style={
-        selected ? { ...styles.text, ...styles.selectedText } : styles.text
-      }
-    >
-      {guestName}
-    </Text>
+const GuestButton = ({ guest, onPress, selected }) => (
+  <TouchableOpacity style={styles.button} onPress={onPress}>
+    {selected ? (
+      <Image source={guest.photo} style={styles.image} resizeMode="contain" />
+    ) : (
+      <Text style={styles.text}>{guest.name}</Text>
+    )}
   </TouchableOpacity>
 );
 
@@ -31,15 +22,13 @@ const styles = StyleSheet.create({
     borderRadius: BUTTON_SIZE,
     height: BUTTON_SIZE,
     justifyContent: 'center',
-    padding: 10,
-    width: BUTTON_SIZE,
-    margin: 10
+    margin: 10,
+    width: BUTTON_SIZE
   },
-  selectedButton: {
-    backgroundColor: 'blue'
-  },
-  selectedText: {
-    color: 'white'
+  image: {
+    borderRadius: BUTTON_SIZE / 2,
+    height: BUTTON_SIZE,
+    width: BUTTON_SIZE
   },
   text: {
     color: 'black',
