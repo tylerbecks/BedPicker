@@ -13,27 +13,27 @@ exports[`renders with blue background when selected 1`] = `
   style={
     Object {
       "alignItems": "center",
-      "backgroundColor": "blue",
+      "backgroundColor": "#CFD8DC",
       "borderRadius": 90,
       "height": 90,
       "justifyContent": "center",
       "margin": 10,
       "opacity": 1,
-      "padding": 10,
       "width": 90,
     }
   }
 >
-  <Text
+  <Image
+    resizeMode="contain"
+    source={Object {}}
     style={
       Object {
-        "color": "white",
-        "fontWeight": "bold",
+        "borderRadius": 45,
+        "height": 90,
+        "width": 90,
       }
     }
-  >
-    foo
-  </Text>
+  />
 </View>
 `;
 
@@ -56,7 +56,6 @@ exports[`renders with gray background when not selected 1`] = `
       "justifyContent": "center",
       "margin": 10,
       "opacity": 1,
-      "padding": 10,
       "width": 90,
     }
   }

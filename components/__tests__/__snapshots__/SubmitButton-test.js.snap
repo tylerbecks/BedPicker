@@ -13,7 +13,7 @@ exports[`renders with blue background when selected 1`] = `
   style={
     Object {
       "alignItems": "center",
-      "backgroundColor": "#43A047",
+      "backgroundColor": "#21ba45",
       "borderRadius": 100,
       "height": 80,
       "justifyContent": "center",
