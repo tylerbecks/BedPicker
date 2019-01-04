@@ -1,8 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import MultiAddModal from '../components/MultiAddModal';
 import GuestButton from '../components/GuestButton';
 import SubmitButton from '../components/SubmitButton';
+import CircleButton from '../components/CircleButton';
 
 const DEFAULT_GUESTS = [
   { name: 'Aaron', photo: require('../assets/images/aaron.jpg') },
@@ -19,7 +21,8 @@ const DEFAULT_GUESTS = [
 export default class AssignmentScreen extends React.Component {
   state = {
     selectedGuests: [],
-    guests: DEFAULT_GUESTS
+    guests: DEFAULT_GUESTS,
+    isModalVisible: false
   };
 
   onPressGuest = guest => {
@@ -37,12 +40,40 @@ export default class AssignmentScreen extends React.Component {
     navigate('Assignment', { selectedGuests });
   };
 
+  addGuest = guestName => {
+    const newGuest = {
+      name: guestName,
+      photo: null
+    };
+
+    this.setState({
+      guests: this.state.guests.concat(newGuest)
+    });
+    this.scrollToBottom();
+  };
+
+  openModal = () => {
+    this.setState({ isModalVisible: true });
+    this.scrollToBottom();
+  };
+
+  closeModal = () => {
+    this.setState({ isModalVisible: false });
+  };
+
+  scrollToBottom = () => {
+    setTimeout(() => {
+      this._scrollView.scrollToEnd({ animated: true });
+    }, 100);
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
+          ref={c => (this._scrollView = c)}
         >
           <Text style={styles.titleText}>Who's here?</Text>
           <View style={styles.guestButtonsContainer}>
@@ -54,12 +85,23 @@ export default class AssignmentScreen extends React.Component {
                 selected={this.state.selectedGuests.includes(guest)}
               />
             ))}
+            <CircleButton onPress={this.openModal}>
+              <Text style={styles.plusSign}>+</Text>
+            </CircleButton>
           </View>
           <SubmitButton
             onPress={this.onSubmit}
             disabled={this.state.selectedGuests.length === 0}
           />
+          {this.state.isModalVisible && <View style={{ height: 350 }} />}
         </ScrollView>
+
+        <MultiAddModal
+          placeholder="Guest name..."
+          isVisible={this.state.isModalVisible}
+          close={this.closeModal}
+          onSubmit={this.addGuest}
+        />
       </View>
     );
   }
@@ -68,20 +110,23 @@ export default class AssignmentScreen extends React.Component {
 const styles = StyleSheet.create({
   guestButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    flex: 1
   },
   contentContainer: {
-    paddingTop: 30,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    paddingTop: 30
   },
   titleText: {
-    textAlign: 'center',
+    fontSize: 24,
     fontWeight: 'bold',
-    fontSize: 24
+    textAlign: 'center'
+  },
+  plusSign: {
+    fontSize: 32
   }
 });
