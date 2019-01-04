@@ -1,30 +1,20 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
+import CircleButton, { BUTTON_SIZE } from './CircleButton';
 
 const GuestButton = ({ guest, onPress, selected }) => (
-  <TouchableOpacity style={styles.button} onPress={onPress}>
+  <CircleButton onPress={onPress}>
     {selected ? (
       <Image source={guest.photo} style={styles.image} resizeMode="contain" />
     ) : (
       <Text style={styles.text}>{guest.name}</Text>
     )}
-  </TouchableOpacity>
+  </CircleButton>
 );
 
 export default GuestButton;
 
-const BUTTON_SIZE = 90;
-
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#CFD8DC',
-    borderRadius: BUTTON_SIZE,
-    height: BUTTON_SIZE,
-    justifyContent: 'center',
-    margin: 10,
-    width: BUTTON_SIZE
-  },
   image: {
     borderRadius: BUTTON_SIZE / 2,
     height: BUTTON_SIZE,

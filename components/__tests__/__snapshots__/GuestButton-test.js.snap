@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders with blue background when selected 1`] = `
+exports[`renders with guest name when selected 1`] = `
 <View
   accessible={true}
   isTVSelectable={true}
@@ -37,7 +37,7 @@ exports[`renders with blue background when selected 1`] = `
 </View>
 `;
 
-exports[`renders with gray background when not selected 1`] = `
+exports[`renders with image when not selected 1`] = `
 <View
   accessible={true}
   isTVSelectable={true}

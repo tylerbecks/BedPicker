@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 
 const guest = { name: 'foo', photo: {} };
 
-it('renders with blue background when selected', () => {
+it('renders with guest name when selected', () => {
   expect(
     renderer
       .create(<GuestButton guest={guest} onPress={jest.fn()} selected />)
@@ -13,7 +13,7 @@ it('renders with blue background when selected', () => {
   ).toMatchSnapshot();
 });
 
-it('renders with gray background when not selected', () => {
+it('renders with image when not selected', () => {
   expect(
     renderer
       .create(
