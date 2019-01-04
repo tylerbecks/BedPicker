@@ -69,7 +69,7 @@ export default class AssignmentScreen extends React.Component {
 const styles = StyleSheet.create({
   guestButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     flexWrap: 'wrap'
   },
   container: {
