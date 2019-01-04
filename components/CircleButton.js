@@ -16,9 +16,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#CFD8DC',
     borderRadius: BUTTON_SIZE,
+    elevation: 2, // Android
     height: BUTTON_SIZE,
     justifyContent: 'center',
     margin: 10,
+    shadowColor: 'rgba(0,0,0, .4)', // iOS
+    shadowOffset: { height: 1, width: 1 }, // iOS
+    shadowOpacity: 1, // iOS
+    shadowRadius: 1, // iOS
     width: BUTTON_SIZE
   }
 });

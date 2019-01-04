@@ -15,10 +15,18 @@ exports[`renders with guest name when selected 1`] = `
       "alignItems": "center",
       "backgroundColor": "#CFD8DC",
       "borderRadius": 90,
+      "elevation": 2,
       "height": 90,
       "justifyContent": "center",
       "margin": 10,
       "opacity": 1,
+      "shadowColor": "rgba(0,0,0, .4)",
+      "shadowOffset": Object {
+        "height": 1,
+        "width": 1,
+      },
+      "shadowOpacity": 1,
+      "shadowRadius": 1,
       "width": 90,
     }
   }
@@ -52,10 +60,18 @@ exports[`renders with image when not selected 1`] = `
       "alignItems": "center",
       "backgroundColor": "#CFD8DC",
       "borderRadius": 90,
+      "elevation": 2,
       "height": 90,
       "justifyContent": "center",
       "margin": 10,
       "opacity": 1,
+      "shadowColor": "rgba(0,0,0, .4)",
+      "shadowOffset": Object {
+        "height": 1,
+        "width": 1,
+      },
+      "shadowOpacity": 1,
+      "shadowRadius": 1,
       "width": 90,
     }
   }
