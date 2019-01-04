@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import BedSection from '../components/BedSection';
 import Assigner from '../components/Assigner';
 
@@ -11,29 +11,47 @@ const tahoeBeds = [
   { type: 'full', name: 'couch', guests: [] }
 ];
 
-//  bed: {
-//    type: string
-//    name: string
-//    guests: [string]
-//  }
-
 export default class AssignmentScreen extends React.Component {
   state = {
     assignment: null
   };
 
+  selectedGuests = null;
+
   componentDidMount() {
-    this.setAssignment(this.props.navigation);
+    const selectedGuests = this.props.navigation.getParam('selectedGuests', []);
+    this.setAssignment(selectedGuests);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setAssignment(nextProps.navigation);
+    const selectedGuests = nextProps.navigation.getParam('selectedGuests', []);
+    if (selectedGuests !== this.selectedGuests) {
+      this.setAssignment(selectedGuests);
+    }
   }
 
-  setAssignment = navigation => {
-    const selectedGuests = navigation.getParam('selectedGuests', []);
+  setAssignment = selectedGuests => {
+    this.selectedGuests = selectedGuests;
     const assigner = new Assigner(selectedGuests, tahoeBeds);
-    this.setState({ assignment: assigner.assign() });
+    this.setState({ assignment: assigner.assignBeds() });
+  };
+
+  getFormattedDate = () => {
+    const { assignment } = this.state;
+    if (!assignment || !assignment.date) {
+      throw Error('expected assignment date to exist!');
+    }
+
+    const date = new Date(assignment.date);
+
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
   };
 
   render() {
@@ -44,9 +62,14 @@ export default class AssignmentScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}
         >
           {this.state.assignment &&
-            this.state.assignment.map(({ type, name, guests }, index) => (
+            this.state.assignment.beds.map(({ type, name, guests }, index) => (
               <BedSection key={index} type={type} name={name} guests={guests} />
             ))}
+          <View style={styles.dateContainer}>
+            {this.state.assignment && (
+              <Text style={styles.date}>{this.getFormattedDate()}</Text>
+            )}
+          </View>
         </ScrollView>
       </View>
     );
@@ -55,10 +78,16 @@ export default class AssignmentScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    flex: 1
   },
   contentContainer: {
     paddingBottom: 20
+  },
+  date: {
+    marginTop: 20
+  },
+  dateContainer: {
+    alignItems: 'center'
   }
 });

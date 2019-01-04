@@ -19,8 +19,7 @@ const DEFAULT_GUESTS = [
 export default class AssignmentScreen extends React.Component {
   state = {
     selectedGuests: [],
-    guests: DEFAULT_GUESTS,
-    assignment: null
+    guests: DEFAULT_GUESTS
   };
 
   onPressGuest = guest => {

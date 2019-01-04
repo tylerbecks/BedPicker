@@ -31,13 +31,13 @@ export default class Assigner {
       .sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
   }
 
-  assign() {
+  assignBeds() {
     const shuffledGuests = _.shuffle(this.guests);
-    if (this.guests.length <= this.sortedBeds.length) {
-      return this.assignOnePersonPerBed(shuffledGuests);
-    } else {
-      return this.fillBeds(shuffledGuests);
-    }
+    const beds =
+      this.guests.length <= this.sortedBeds.length
+        ? this.assignOnePersonPerBed(shuffledGuests)
+        : this.fillBeds(shuffledGuests);
+    return { beds, date: Date() };
   }
 
   assignOnePersonPerBed(guests) {
