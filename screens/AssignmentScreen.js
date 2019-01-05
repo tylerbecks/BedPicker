@@ -4,11 +4,11 @@ import BedSection from '../components/BedSection';
 import Assigner from '../components/Assigner';
 
 const tahoeBeds = [
-  { type: 'twin', name: 'upstairs twin', guests: [] },
-  { type: 'queen', name: 'master', guests: [] },
-  { type: 'twin', name: 'upstairs twin', guests: [] },
-  { type: 'full', name: 'upstairs full', guests: [] },
-  { type: 'full', name: 'couch', guests: [] }
+  { type: 'twin', name: 'Upstairs twin', guests: [] },
+  { type: 'queen', name: 'Master', guests: [] },
+  { type: 'twin', name: 'Upstairs twin', guests: [] },
+  { type: 'full', name: 'Upstairs full', guests: [] },
+  { type: 'full', name: 'Couch', guests: [] }
 ];
 
 export default class AssignmentScreen extends React.Component {
@@ -79,11 +79,10 @@ export default class AssignmentScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    flex: 1
+    flex: 1,
+    padding: 8
   },
-  contentContainer: {
-    paddingBottom: 20
-  },
+  contentContainer: {},
   date: {
     marginTop: 20
   },
