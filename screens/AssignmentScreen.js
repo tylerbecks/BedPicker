@@ -55,20 +55,24 @@ export default class AssignmentScreen extends React.Component {
   };
 
   render() {
+    if (!this.state.assignment) {
+      return (
+        <View style={styles.container}>
+          <Text>No assignment yet!</Text>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          {this.state.assignment &&
-            this.state.assignment.beds.map(({ type, name, guests }, index) => (
-              <BedSection key={index} type={type} name={name} guests={guests} />
-            ))}
+          {this.state.assignment.beds.map(({ name, guests }, index) => (
+            <BedSection key={index} name={name} guests={guests} />
+          ))}
           <View style={styles.dateContainer}>
-            {this.state.assignment && (
-              <Text style={styles.date}>{this.getFormattedDate()}</Text>
-            )}
+            <Text style={styles.date}>{this.getFormattedDate()}</Text>
           </View>
         </ScrollView>
       </View>

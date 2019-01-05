@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-const BedSection = ({ type, name, guests }) => (
+const BedSection = ({ name, guests }) => (
   <View style={styles.container}>
     <Text style={styles.title}>{name}</Text>
     {guests.map((guest, index) => (
