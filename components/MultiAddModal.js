@@ -9,7 +9,7 @@ export default class MultiAddModal extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isVisible) {
+    if (!nextProps.isVisible && this._textInput) {
       this._textInput.blur();
     }
 
