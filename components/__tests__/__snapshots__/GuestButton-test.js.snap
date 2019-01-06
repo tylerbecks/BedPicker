@@ -81,6 +81,7 @@ exports[`renders with image when not selected 1`] = `
       Object {
         "color": "black",
         "fontWeight": "bold",
+        "textAlign": "center",
       }
     }
   >
