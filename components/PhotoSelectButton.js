@@ -2,17 +2,17 @@ import React from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
 import CircleButton, { BUTTON_SIZE } from './CircleButton';
 
-const GuestButton = ({ guest, onPress, selected }) => (
+const PhotoSelectButton = ({ text, photo, onPress, selected }) => (
   <CircleButton onPress={onPress}>
     {selected ? (
-      <Image source={guest.photo} style={styles.image} resizeMode="contain" />
+      <Image source={photo} style={styles.image} resizeMode="contain" />
     ) : (
-      <Text style={styles.text}>{guest.name}</Text>
+      <Text style={styles.text}>{text}</Text>
     )}
   </CircleButton>
 );
 
-export default GuestButton;
+export default PhotoSelectButton;
 
 const styles = StyleSheet.create({
   image: {

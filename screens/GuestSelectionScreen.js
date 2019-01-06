@@ -2,21 +2,11 @@ import React from 'react';
 import _ from 'lodash';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import MultiAddModal from '../components/MultiAddModal';
-import GuestButton from '../components/GuestButton';
+import PhotoSelectButton from '../components/PhotoSelectButton';
+import TextSelectButton from '../components/TextSelectButton';
 import SubmitButton from '../components/SubmitButton';
 import CircleButton from '../components/CircleButton';
-
-const DEFAULT_GUESTS = [
-  { name: 'Aaron', photo: require('../assets/images/aaron.jpg') },
-  { name: 'Barak', photo: require('../assets/images/barak.jpg') },
-  { name: 'Cheryl', photo: require('../assets/images/cheryl.jpg') },
-  { name: 'Daniel', photo: require('../assets/images/daniel.jpg') },
-  { name: 'Jeremy', photo: require('../assets/images/jeremy.jpg') },
-  { name: 'Josh', photo: require('../assets/images/josh.jpg') },
-  { name: 'Noah', photo: require('../assets/images/noah.jpg') },
-  { name: 'Raj', photo: require('../assets/images/raj.jpg') },
-  { name: 'Tyler', photo: require('../assets/images/tyler.jpg') }
-];
+import DEFAULT_GUESTS from '../constants/DefaultGuests';
 
 export default class AssignmentScreen extends React.Component {
   state = {
@@ -76,15 +66,25 @@ export default class AssignmentScreen extends React.Component {
           ref={c => (this._scrollView = c)}
         >
           <Text style={styles.titleText}>Who's here?</Text>
-          <View style={styles.guestButtonsContainer}>
-            {this.state.guests.map((guest, index) => (
-              <GuestButton
-                key={index}
-                guest={guest}
-                onPress={() => this.onPressGuest(guest)}
-                selected={this.state.selectedGuests.includes(guest)}
-              />
-            ))}
+          <View style={styles.guestSelectButtonsContainer}>
+            {this.state.guests.map((guest, index) =>
+              guest.photo ? (
+                <PhotoSelectButton
+                  key={index}
+                  text={guest.name}
+                  photo={guest.photo}
+                  onPress={() => this.onPressGuest(guest)}
+                  selected={this.state.selectedGuests.includes(guest)}
+                />
+              ) : (
+                <TextSelectButton
+                  key={index}
+                  text={guest.name}
+                  onPress={() => this.onPressGuest(guest)}
+                  selected={this.state.selectedGuests.includes(guest)}
+                />
+              )
+            )}
             <CircleButton onPress={this.openModal}>
               <Text style={styles.plusSign}>+</Text>
             </CircleButton>
@@ -108,7 +108,7 @@ export default class AssignmentScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  guestButtonsContainer: {
+  guestSelectButtonsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center'

@@ -1,8 +1,12 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
-const CircleButton = ({ onPress, children }) => (
-  <TouchableOpacity style={styles.button} onPress={onPress}>
+const CircleButton = ({ onPress, children, style }) => (
+  <TouchableOpacity
+    activeOpacity={0.4}
+    style={{ ...styles.button, ...style }}
+    onPress={onPress}
+  >
     {children}
   </TouchableOpacity>
 );
