@@ -20,7 +20,7 @@ const BedSection = ({ name, guests }) => (
 
 export default BedSection;
 
-const AVATAR_SIZE = 30;
+const AVATAR_SIZE = 40;
 
 const styles = StyleSheet.create({
   container: {

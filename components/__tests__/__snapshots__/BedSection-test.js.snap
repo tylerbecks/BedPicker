@@ -33,10 +33,10 @@ exports[`renders when guests have no photo 1`] = `
       source={1}
       style={
         Object {
-          "borderRadius": 15,
-          "height": 30,
+          "borderRadius": 20,
+          "height": 40,
           "marginRight": 10,
-          "width": 30,
+          "width": 40,
         }
       }
     />
@@ -86,10 +86,10 @@ exports[`renders when guests have photos 1`] = `
       source={Object {}}
       style={
         Object {
-          "borderRadius": 15,
-          "height": 30,
+          "borderRadius": 20,
+          "height": 40,
           "marginRight": 10,
-          "width": 30,
+          "width": 40,
         }
       }
     />
@@ -117,10 +117,10 @@ exports[`renders when guests have photos 1`] = `
       source={Object {}}
       style={
         Object {
-          "borderRadius": 15,
-          "height": 30,
+          "borderRadius": 20,
+          "height": 40,
           "marginRight": 10,
-          "width": 30,
+          "width": 40,
         }
       }
     />
