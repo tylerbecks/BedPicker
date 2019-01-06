@@ -8,9 +8,14 @@ const dummyBeds = [
   { type: 'twin', name: 'foo', guests: [] },
   { type: 'queen', name: 'bar', guests: [] },
   { type: 'twin', name: 'baz', guests: [] },
-  { type: 'full', name: 'qux', guests: [] },
-  { type: 'full', name: 'quux', guests: [] }
+  { type: 'full', name: 'qux', guests: [] }
 ];
+
+const guest1 = { name: 'guest1', photo: {} };
+const guest2 = { name: 'guest2', photo: {} };
+const guest3 = { name: 'guest3', photo: {} };
+const guest4 = { name: 'guest4', photo: {} };
+const guest5 = { name: 'guest5', photo: {} };
 
 it('sorts beds with bigger beds first', () => {
   const assigner = new Assigner([], dummyBeds);
@@ -18,44 +23,41 @@ it('sorts beds with bigger beds first', () => {
   expect(result).toEqual([
     { type: 'queen', name: 'bar', guests: [] },
     { type: 'full', name: 'qux', guests: [] },
-    { type: 'full', name: 'quux', guests: [] },
     { type: 'twin', name: 'foo', guests: [] },
     { type: 'twin', name: 'baz', guests: [] }
   ]);
 });
 
 it('assigns each person a spot when there is exactly one spot per person', () => {
-  const dummyGuests = ['tyler', 'josh', 'cheryl', 'jeremy', 'noah', 'aaron'];
+  const dummyGuests = [guest1, guest2, guest3, guest4, guest5];
   const assigner = new Assigner(dummyGuests, dummyBeds);
   const result = assigner.assignBeds();
   expect(result.beds).toEqual([
-    { type: 'queen', name: 'bar', guests: ['tyler', 'josh'] },
-    { type: 'full', name: 'qux', guests: ['cheryl'] },
-    { type: 'full', name: 'quux', guests: ['jeremy'] },
-    { type: 'twin', name: 'foo', guests: ['noah'] },
-    { type: 'twin', name: 'baz', guests: ['aaron'] }
+    { type: 'queen', name: 'bar', guests: [guest1, guest2] },
+    { type: 'full', name: 'qux', guests: [guest3] },
+    { type: 'twin', name: 'foo', guests: [guest4] },
+    { type: 'twin', name: 'baz', guests: [guest5] }
   ]);
 });
 
 it('works when there are more people than beds', () => {
-  const dummyGuests = ['tyler', 'josh', 'cheryl'];
-  const lessBeds = [{ type: 'twin', name: 'foo', guests: [] }];
-  const assigner = new Assigner(dummyGuests, lessBeds);
+  const dummyGuests = [guest1, guest2, guest3];
+  const oneBed = [{ type: 'twin', name: 'haha', guests: [] }];
+  const assigner = new Assigner(dummyGuests, oneBed);
   const result = assigner.assignBeds();
   expect(result.beds).toEqual([
-    { type: 'twin', name: 'foo', guests: ['tyler'] }
+    { type: 'twin', name: 'haha', guests: [guest1] }
   ]);
 });
 
 it('assigns everyone their own bed when there are more beds than people', () => {
-  const dummyGuests = ['tyler', 'josh', 'cheryl'];
+  const dummyGuests = [guest1, guest2, guest3];
   const assigner = new Assigner(dummyGuests, dummyBeds);
   const result = assigner.assignBeds();
   expect(result.beds).toEqual([
-    { type: 'queen', name: 'bar', guests: ['tyler'] },
-    { type: 'full', name: 'qux', guests: ['josh'] },
-    { type: 'full', name: 'quux', guests: ['cheryl'] },
-    { type: 'twin', name: 'foo', guests: [] },
+    { type: 'queen', name: 'bar', guests: [guest1] },
+    { type: 'full', name: 'qux', guests: [guest2] },
+    { type: 'twin', name: 'foo', guests: [guest3] },
     { type: 'twin', name: 'baz', guests: [] }
   ]);
 });
