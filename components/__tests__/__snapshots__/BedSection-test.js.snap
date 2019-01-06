@@ -1,6 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders 1`] = `
+exports[`renders when guests have no photo 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 20,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "marginBottom": 12,
+      }
+    }
+  >
+    baz
+  </Text>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "marginLeft": 20,
+        "paddingVertical": 8,
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Object {
+          "borderRadius": 15,
+          "height": 30,
+          "marginRight": 10,
+          "width": 30,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      foo
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders when guests have photos 1`] = `
 <View
   style={
     Object {

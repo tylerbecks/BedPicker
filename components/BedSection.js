@@ -6,7 +6,12 @@ const BedSection = ({ name, guests }) => (
     <Text style={styles.title}>{name}</Text>
     {guests.map((guest, index) => (
       <View style={styles.item} key={index}>
-        <Image style={styles.avatar} source={guest.photo} />
+        <Image
+          style={styles.avatar}
+          source={
+            guest.photo ? guest.photo : require('../assets/images/jerry.png')
+          }
+        />
         <Text style={styles.itemText}>{guest.name}</Text>
       </View>
     ))}
