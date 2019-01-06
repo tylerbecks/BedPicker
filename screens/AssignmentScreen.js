@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import BedSection from '../components/BedSection';
-import Assigner from '../components/Assigner';
+import Assigner from '../utils/Assigner';
 
 const tahoeBeds = [
   { type: 'twin', name: 'Upstairs twin', guests: [] },
