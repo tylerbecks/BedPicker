@@ -33,7 +33,7 @@ export default class AssignmentScreen extends React.Component {
   setAssignment = selectedGuests => {
     this.selectedGuests = selectedGuests;
     const assigner = new Assigner(selectedGuests, tahoeBeds);
-    this.setState({ assignment: assigner.assignBeds() });
+    this.setState({ assignment: assigner.createAssignment() });
   };
 
   getFormattedDate = () => {

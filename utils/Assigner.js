@@ -31,42 +31,39 @@ export default class Assigner {
       .sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
   }
 
-  assignBeds() {
+  createAssignment() {
     const shuffledGuests = _.shuffle(this.guests);
-    const beds =
-      this.guests.length <= this.sortedBeds.length
-        ? this.assignOnePersonPerBed(shuffledGuests)
-        : this.fillBeds(shuffledGuests);
+    const beds = this.fillBeds(shuffledGuests, this.sortedBeds);
     return { beds, date: Date() };
   }
 
-  assignOnePersonPerBed(guests) {
-    return _.map(this.sortedBeds, (bed, index) => {
-      if (index >= guests.length) {
+  fillBeds(guests, beds) {
+    let guestIndex = 0;
+    return _.map(beds, (bed, bedIndex) => {
+      const remainingGuestsCount = guests.length - guestIndex;
+      const remainingBedsCount = beds.length - bedIndex;
+
+      if (remainingGuestsCount === 0) {
         return bed;
       }
-      const currentGuest = guests[index];
 
-      return Object.assign({}, bed, {
-        guests: [currentGuest]
-      });
-    });
-  }
-
-  fillBeds(guests) {
-    if (guests.length < this.sortedBeds.length) {
-      throw Error('expected more beds than people, use assignOnePersonPerBed');
-    }
-
-    let guestIndex = 0;
-    return _.map(this.sortedBeds, bed => {
-      let bedCapacity = BED_CAPACITIES[bed.type];
       bed = _.cloneDeep(bed);
-      while (bedCapacity > 0) {
+
+      if (remainingGuestsCount <= remainingBedsCount) {
+        // asign one person per bed
         bed.guests.push(guests[guestIndex]);
         guestIndex++;
-        bedCapacity--;
+      } else {
+        // fill bed
+        let bedCapacity = BED_CAPACITIES[bed.type];
+
+        while (bedCapacity > 0) {
+          bed.guests.push(guests[guestIndex]);
+          guestIndex++;
+          bedCapacity--;
+        }
       }
+
       return bed;
     });
   }
