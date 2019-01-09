@@ -45,7 +45,7 @@ it('sorts beds with bigger beds first', () => {
   expect(result).toEqual([queenBed, fullBed, twinBed1, twinBed2]);
 });
 
-it.only('assigns each person a spot when there is exactly one spot per person', () => {
+it('assigns each person a spot when there is exactly one spot per person', () => {
   const dummySleepers = [sleeper1, sleeper2, sleeper3, sleeper4, sleeper5];
   const assigner = new Assigner(dummySleepers, [
     twinBed1,
@@ -99,5 +99,16 @@ it('assigns as many people their own bed as possible', () => {
     Object.assign(_.cloneDeep(kingBed), { guests: [guest1, guest2] }),
     Object.assign(_.cloneDeep(queenBed), { guests: [guest3] }),
     Object.assign(_.cloneDeep(queenBed2), { guests: [guest4] })
+  ]);
+});
+
+it('works with a couple', () => {
+  const couple = new SleeperCouple(guest1, guest2);
+  const dummySleepers = [couple, sleeper3];
+  const assigner = new Assigner(dummySleepers, [twinBed1, queenBed]);
+  const result = assigner.createAssignment();
+  expect(result.beds).toEqual([
+    Object.assign(_.cloneDeep(queenBed), { guests: [guest1, guest2] }),
+    Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] })
   ]);
 });

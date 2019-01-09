@@ -10,5 +10,5 @@ export default class Sleeper {
     return guest;
   };
 
-  allAsigned = () => this.nextAssignedIndex >= this.guests.length - 1;
+  allAsigned = () => this.nextAssignedIndex >= this.guests.length;
 }

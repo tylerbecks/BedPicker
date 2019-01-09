@@ -1,10 +1,6 @@
 import _ from 'lodash';
 import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes';
 
-// for couples, make them an array, this will keep them together during the shuffle
-// TODO: figure out how to keep them in same room/bed, putting them on an even number would work.
-// e.g. ['tyler', ['josh', 'cheryl'], 'noah']
-
 const BED_SORT_WEIGHTS = {
   [KING]: 4,
   [QUEEN]: 3,
@@ -32,22 +28,25 @@ export default class Assigner {
   }
 
   fillBeds(sleepers, beds) {
+    let remainingGuestCount = getGuestCount(sleepers);
+
     return _.map(beds, (bed, bedIndex) => {
-      const remainingSleepersCount = sleepers.length - this.currentSleeperIndex;
       const remainingBedsCount = beds.length - bedIndex;
 
-      if (remainingSleepersCount === 0) {
+      if (remainingGuestCount === 0) {
         return bed;
       }
 
-      if (remainingSleepersCount <= remainingBedsCount) {
+      if (remainingGuestCount <= remainingBedsCount) {
         // asign one guest per bed
-        const guest = this.getNextGuest();
+        const guest = this.getNextGuest(sleepers);
+        remainingGuestCount--;
         bed.add(guest);
       } else {
         // fill bed
         while (!bed.isFull()) {
-          const guest = this.getNextGuest();
+          const guest = this.getNextGuest(sleepers);
+          remainingGuestCount--;
           bed.add(guest);
         }
       }
@@ -56,8 +55,8 @@ export default class Assigner {
     });
   }
 
-  getNextGuest = () => {
-    const currentSleeper = this.sleepers[this.currentSleeperIndex];
+  getNextGuest = sleepers => {
+    const currentSleeper = sleepers[this.currentSleeperIndex];
     const nextGuest = currentSleeper.getGuest();
 
     if (currentSleeper.allAsigned()) {
@@ -67,3 +66,6 @@ export default class Assigner {
     return nextGuest;
   };
 }
+
+const getGuestCount = sleepers =>
+  _.reduce(sleepers, (count, sleeper) => (count += sleeper.guests.length), 0);
