@@ -1,14 +1,17 @@
 import React from 'react';
+import _ from 'lodash';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import BedSection from '../components/BedSection';
 import Assigner from '../utils/Assigner';
+import Bed from '../utils/classses/Bed';
+import Sleeper from '../utils/classses/Sleeper';
 
-const tahoeBeds = [
-  { type: 'twin', name: 'Upstairs twin', guests: [] },
-  { type: 'queen', name: 'Master', guests: [] },
-  { type: 'twin', name: 'Upstairs twin', guests: [] },
-  { type: 'full', name: 'Upstairs full', guests: [] },
-  { type: 'full', name: 'Couch', guests: [] }
+const getTahoeBeds = () => [
+  new Bed('twin', 'Upstairs twin'),
+  new Bed('queen', 'Master'),
+  new Bed('twin', 'Upstairs twin'),
+  new Bed('full', 'Upstairs full'),
+  new Bed('full', 'Couch')
 ];
 
 export default class AssignmentScreen extends React.Component {
@@ -32,7 +35,8 @@ export default class AssignmentScreen extends React.Component {
 
   setAssignment = selectedGuests => {
     this.selectedGuests = selectedGuests;
-    const assigner = new Assigner(selectedGuests, tahoeBeds);
+    const sleepers = _.map(selectedGuests, guest => new Sleeper(guest));
+    const assigner = new Assigner(sleepers, getTahoeBeds());
     this.setState({ assignment: assigner.createAssignment() });
   };
 

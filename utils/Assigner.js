@@ -5,14 +5,7 @@ import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes';
 // TODO: figure out how to keep them in same room/bed, putting them on an even number would work.
 // e.g. ['tyler', ['josh', 'cheryl'], 'noah']
 
-const BED_CAPACITIES = {
-  [KING]: 2,
-  [QUEEN]: 2,
-  [FULL]: 1,
-  [TWIN]: 1
-};
-
-const BED_WEIGHTS = {
+const BED_SORT_WEIGHTS = {
   [KING]: 4,
   [QUEEN]: 3,
   [FULL]: 2,
@@ -20,51 +13,57 @@ const BED_WEIGHTS = {
 };
 
 export default class Assigner {
-  constructor(guests, beds) {
-    this.guests = guests;
+  constructor(sleepers, beds) {
+    this.sleepers = sleepers;
     this.sortedBeds = this.sortBeds(beds);
+    this.currentSleeperIndex = 0;
   }
 
   sortBeds(beds) {
     return beds
       .slice()
-      .sort((a, b) => BED_WEIGHTS[b.type] - BED_WEIGHTS[a.type]);
+      .sort((a, b) => BED_SORT_WEIGHTS[b.type] - BED_SORT_WEIGHTS[a.type]);
   }
 
   createAssignment() {
-    const shuffledGuests = _.shuffle(this.guests);
-    const beds = this.fillBeds(shuffledGuests, this.sortedBeds);
+    const shuffledSleepers = _.shuffle(this.sleepers);
+    const beds = this.fillBeds(shuffledSleepers, this.sortedBeds);
     return { beds, date: Date() };
   }
 
-  fillBeds(guests, beds) {
-    let guestIndex = 0;
+  fillBeds(sleepers, beds) {
     return _.map(beds, (bed, bedIndex) => {
-      const remainingGuestsCount = guests.length - guestIndex;
+      const remainingSleepersCount = sleepers.length - this.currentSleeperIndex;
       const remainingBedsCount = beds.length - bedIndex;
 
-      if (remainingGuestsCount === 0) {
+      if (remainingSleepersCount === 0) {
         return bed;
       }
 
-      bed = _.cloneDeep(bed);
-
-      if (remainingGuestsCount <= remainingBedsCount) {
-        // asign one person per bed
-        bed.guests.push(guests[guestIndex]);
-        guestIndex++;
+      if (remainingSleepersCount <= remainingBedsCount) {
+        // asign one guest per bed
+        const guest = this.getNextGuest();
+        bed.add(guest);
       } else {
         // fill bed
-        let bedCapacity = BED_CAPACITIES[bed.type];
-
-        while (bedCapacity > 0) {
-          bed.guests.push(guests[guestIndex]);
-          guestIndex++;
-          bedCapacity--;
+        while (!bed.isFull()) {
+          const guest = this.getNextGuest();
+          bed.add(guest);
         }
       }
 
       return bed;
     });
   }
+
+  getNextGuest = () => {
+    const currentSleeper = this.sleepers[this.currentSleeperIndex];
+    const nextGuest = currentSleeper.getGuest();
+
+    if (currentSleeper.allAsigned()) {
+      this.currentSleeperIndex++;
+    }
+
+    return nextGuest;
+  };
 }
