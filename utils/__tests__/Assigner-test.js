@@ -2,7 +2,8 @@ import 'react-native';
 import _ from 'lodash';
 import Assigner, {
   partitionByBedCount,
-  getTotalBedCapacity
+  getTotalBedCapacity,
+  partitionSinglesCouples
 } from '../Assigner';
 import Sleeper from '../classes/Sleeper';
 import SleeperCouple from '../classes/SleeperCouple';
@@ -106,6 +107,33 @@ describe('partitionByBedCount', () => {
     const [withBeds, noBeds] = partitionByBedCount(sleepers, beds);
     expect(withBeds).toEqual([sleeper3, sleeper4, sleeper5]);
     expect(noBeds).toEqual([couple, sleeper1]);
+  });
+});
+
+describe('partitionSinglesCouples', () => {
+  it('seperates singles and couples in their original order', () => {
+    const couple1 = new SleeperCouple(guest1, guest2);
+    const couple2 = new SleeperCouple(guest3, guest4);
+    const result = partitionSinglesCouples([
+      couple1,
+      sleeper1,
+      couple2,
+      sleeper2
+    ]);
+    expect(result[0]).toEqual([couple1, couple2]);
+    expect(result[1]).toEqual([sleeper1, sleeper2]);
+  });
+
+  it('works with empty array', () => {
+    const result = partitionSinglesCouples([]);
+    expect(result[0]).toEqual([]);
+    expect(result[1]).toEqual([]);
+  });
+
+  it('works with only singles', () => {
+    const result = partitionSinglesCouples([sleeper1, sleeper2]);
+    expect(result[0]).toEqual([]);
+    expect(result[1]).toEqual([sleeper1, sleeper2]);
   });
 });
 

@@ -35,10 +35,7 @@ export default class Assigner {
       shuffledSleepers
     );
     // split array into guests with beds and noBeds
-    const [couples, singles] = _.partition(
-      this.sleepers,
-      s => s instanceof SleeperCouple
-    );
+    const [couples, singles] = partitionSinglesCouples(this.sleepers);
     // split array by couples and singles
     // split beds by doubles and singles
     // shuffle double beds
@@ -120,3 +117,6 @@ const getSleepersWithSpot = (sleepers, beds) => {
 
   return sleepersWithSpot;
 };
+
+export const partitionSinglesCouples = sleepers =>
+  _.partition(sleepers, s => s instanceof SleeperCouple);
