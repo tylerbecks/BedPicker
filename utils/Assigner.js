@@ -30,13 +30,11 @@ export default class Assigner {
 
   fillBeds2() {
     const shuffledSleepers = _.shuffle(this.sleepers);
-    const [sleepersWithBeds, sleepersWithoutBeds] = partitionByBedCount(
-      this.sortedBeds,
-      shuffledSleepers
-    );
-    // split array into guests with beds and noBeds
-    const [couples, singles] = partitionSinglesCouples(this.sleepers);
-    // split array by couples and singles
+    const [
+      sleepersWithBeds,
+      sleepersWithoutBeds
+    ] = partitionGuestsByBedCapacity(this.sortedBeds, shuffledSleepers);
+    const [couples, singles] = partitionSinglesCouples(sleepersWithBeds);
     // split beds by doubles and singles
     // shuffle double beds
     // assign as many couples into double beds as possible
@@ -92,7 +90,7 @@ const getGuestCount = sleepers =>
 export const getTotalBedCapacity = beds => _.sumBy(beds, 'capacity');
 
 // export only for testing
-export const partitionByBedCount = (sleepers, beds) => {
+export const partitionGuestsByBedCapacity = (sleepers, beds) => {
   sleepers = sleepers.slice();
   const sleepersWithSpot = getSleepersWithSpot(sleepers, beds);
   const sleepersWithoutSpot = _.xor(sleepersWithSpot, sleepers);

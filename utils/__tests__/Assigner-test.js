@@ -1,7 +1,7 @@
 import 'react-native';
 import _ from 'lodash';
 import Assigner, {
-  partitionByBedCount,
+  partitionGuestsByBedCapacity,
   getTotalBedCapacity,
   partitionSinglesCouples
 } from '../Assigner';
@@ -55,11 +55,11 @@ describe('getTotalBedCapacity', () => {
   });
 });
 
-describe('partitionByBedCount', () => {
+describe('partitionGuestsByBedCapacity', () => {
   it('splits people if there are more sleepers than beds', () => {
     const sleepers = [sleeper1, sleeper2, sleeper3, sleeper4, sleeper5];
     const beds = [twinBed1, queenBed];
-    const result = partitionByBedCount(sleepers, beds);
+    const result = partitionGuestsByBedCapacity(sleepers, beds);
     expect(result[0]).toEqual([sleeper1, sleeper2, sleeper3]);
     expect(result[1]).toEqual([sleeper4, sleeper5]);
   });
@@ -67,7 +67,7 @@ describe('partitionByBedCount', () => {
   it('returns an empty second array if there are enough beds for everyone', () => {
     const sleepers = [sleeper1, sleeper2, sleeper3, sleeper4];
     const beds = [twinBed1, queenBed, twinBed2];
-    const [withBeds, noBeds] = partitionByBedCount(sleepers, beds);
+    const [withBeds, noBeds] = partitionGuestsByBedCapacity(sleepers, beds);
     expect(withBeds).toEqual([sleeper1, sleeper2, sleeper3, sleeper4]);
     expect(noBeds).toEqual([]);
   });
@@ -75,7 +75,7 @@ describe('partitionByBedCount', () => {
   it('returns an empty first array if there are no beds', () => {
     const sleepers = [sleeper1, sleeper2, sleeper3, sleeper4];
     const beds = [];
-    const [withBeds, noBeds] = partitionByBedCount(sleepers, beds);
+    const [withBeds, noBeds] = partitionGuestsByBedCapacity(sleepers, beds);
     expect(withBeds).toEqual([]);
     expect(noBeds).toEqual([sleeper1, sleeper2, sleeper3, sleeper4]);
   });
@@ -84,7 +84,7 @@ describe('partitionByBedCount', () => {
     const couple = new SleeperCouple(guest3, guest4);
     const sleepers = [sleeper1, sleeper2, couple, sleeper5];
     const beds = [twinBed1, queenBed, twinBed2];
-    const [withBeds, noBeds] = partitionByBedCount(sleepers, beds);
+    const [withBeds, noBeds] = partitionGuestsByBedCapacity(sleepers, beds);
     expect(withBeds).toEqual([sleeper1, sleeper2, couple]);
     expect(noBeds).toEqual([sleeper5]);
   });
@@ -92,7 +92,7 @@ describe('partitionByBedCount', () => {
   it('leaves a bed empty if there are an odd number of spots and only couples', () => {
     const couple1 = new SleeperCouple(guest1, guest2);
     const couple2 = new SleeperCouple(guest3, guest4);
-    const [withBeds, noBeds] = partitionByBedCount(
+    const [withBeds, noBeds] = partitionGuestsByBedCapacity(
       [couple1, couple2],
       [twinBed1, twinBed2, fullBed]
     );
@@ -104,7 +104,7 @@ describe('partitionByBedCount', () => {
     const couple = new SleeperCouple(guest1, guest2);
     const sleepers = [sleeper3, sleeper4, sleeper5, couple, sleeper1];
     const beds = [queenBed, twinBed1, twinBed2];
-    const [withBeds, noBeds] = partitionByBedCount(sleepers, beds);
+    const [withBeds, noBeds] = partitionGuestsByBedCapacity(sleepers, beds);
     expect(withBeds).toEqual([sleeper3, sleeper4, sleeper5]);
     expect(noBeds).toEqual([couple, sleeper1]);
   });
