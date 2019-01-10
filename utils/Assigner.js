@@ -34,7 +34,10 @@ export default class Assigner {
       sleepersWithBeds,
       sleepersWithoutBeds
     ] = partitionGuestsByBedCapacity(this.sortedBeds, shuffledSleepers);
-    const [couples, singles] = partitionSinglesCouples(sleepersWithBeds);
+    const [sleeperCouples, sleeperSingles] = partitionSinglesCouples(
+      sleepersWithBeds
+    );
+    const [doubleBeds, singleBeds] = partitionBedsByCapacity(this.sortedBeds);
     // split beds by doubles and singles
     // shuffle double beds
     // assign as many couples into double beds as possible
@@ -118,3 +121,6 @@ const getSleepersWithSpot = (sleepers, beds) => {
 
 export const partitionSinglesCouples = sleepers =>
   _.partition(sleepers, s => s instanceof SleeperCouple);
+
+export const partitionBedsByCapacity = beds =>
+  _.partition(beds, b => b.capacity > 1);

@@ -3,7 +3,8 @@ import _ from 'lodash';
 import Assigner, {
   partitionGuestsByBedCapacity,
   getTotalBedCapacity,
-  partitionSinglesCouples
+  partitionSinglesCouples,
+  partitionBedsByCapacity
 } from '../Assigner';
 import Sleeper from '../classes/Sleeper';
 import SleeperCouple from '../classes/SleeperCouple';
@@ -134,6 +135,14 @@ describe('partitionSinglesCouples', () => {
     const result = partitionSinglesCouples([sleeper1, sleeper2]);
     expect(result[0]).toEqual([]);
     expect(result[1]).toEqual([sleeper1, sleeper2]);
+  });
+});
+
+describe('partitionBedsByCapacity', () => {
+  it('seperates double and single beds', () => {
+    const result = partitionBedsByCapacity([queenBed, fullBed, twinBed1]);
+    expect(result[0]).toEqual([queenBed]);
+    expect(result[1]).toEqual([fullBed, twinBed1]);
   });
 });
 
