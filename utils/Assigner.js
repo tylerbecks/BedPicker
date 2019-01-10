@@ -13,7 +13,6 @@ export default class Assigner {
   constructor(sleepers, beds) {
     this.sleepers = sleepers;
     this.sortedBeds = this.sortBeds(beds);
-    this.currentSleeperIndex = 0;
   }
 
   sortBeds(beds) {
@@ -38,8 +37,7 @@ export default class Assigner {
       sleepersWithBeds
     );
     const [doubleBeds, singleBeds] = partitionBedsByCapacity(this.sortedBeds);
-    // split beds by doubles and singles
-    // shuffle double beds
+    const shuffledDoubleBeds = _.shuffle(doubleBeds);
     // assign as many couples into double beds as possible
     // combine remaining sleeper arrays
     // combine and sort remaining beds arrays
@@ -48,6 +46,19 @@ export default class Assigner {
 
   fillBeds(sleepers, beds) {
     let remainingGuestCount = getGuestCount(sleepers);
+    let currentSleeperIndex = 0;
+
+    // TODO: refactor
+    const getNextGuest = () => {
+      const currentSleeper = sleepers[currentSleeperIndex];
+      const nextGuest = currentSleeper.getGuest();
+  
+      if (currentSleeper.allAsigned()) {
+        currentSleeperIndex++;
+      }
+  
+      return nextGuest;
+    };
 
     return _.map(beds, (bed, bedIndex) => {
       const remainingBedsCount = beds.length - bedIndex;
@@ -58,13 +69,14 @@ export default class Assigner {
 
       if (remainingGuestCount <= remainingBedsCount) {
         // asign one guest per bed
-        const guest = this.getNextGuest(sleepers);
+        const guest = getNextGuest(sleepers);
         remainingGuestCount--;
         bed.add(guest);
       } else {
         // fill bed
         while (!bed.isFull()) {
-          const guest = this.getNextGuest(sleepers);
+          const guest = getNextGuest(sleepers);
+          // TODO maybe a bug here if no more we run out of guests
           remainingGuestCount--;
           bed.add(guest);
         }
@@ -73,17 +85,6 @@ export default class Assigner {
       return bed;
     });
   }
-
-  getNextGuest = sleepers => {
-    const currentSleeper = sleepers[this.currentSleeperIndex];
-    const nextGuest = currentSleeper.getGuest();
-
-    if (currentSleeper.allAsigned()) {
-      this.currentSleeperIndex++;
-    }
-
-    return nextGuest;
-  };
 }
 
 const getGuestCount = sleepers =>
