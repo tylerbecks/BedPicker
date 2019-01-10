@@ -11,4 +11,6 @@ export default class Sleeper {
   };
 
   allAsigned = () => this.nextAssignedIndex >= this.guests.length;
+
+  getGuestCount = () => this.guests.length;
 }

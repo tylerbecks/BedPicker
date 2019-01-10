@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes';
+import SleeperCouple from './classes/SleeperCouple';
 
 const BED_SORT_WEIGHTS = {
   [KING]: 4,
@@ -25,6 +26,26 @@ export default class Assigner {
     const shuffledSleepers = _.shuffle(this.sleepers);
     const beds = this.fillBeds(shuffledSleepers, this.sortedBeds);
     return { beds, date: Date() };
+  }
+
+  fillBeds2() {
+    const shuffledSleepers = _.shuffle(this.sleepers);
+    const [sleepersWithBeds, sleepersWithoutBeds] = partitionByBedCount(
+      this.sortedBeds,
+      shuffledSleepers
+    );
+    // split array into guests with beds and noBeds
+    const [couples, singles] = _.partition(
+      this.sleepers,
+      s => s instanceof SleeperCouple
+    );
+    // split array by couples and singles
+    // split beds by doubles and singles
+    // shuffle double beds
+    // assign as many couples into double beds as possible
+    // combine remaining sleeper arrays
+    // combine and sort remaining beds arrays
+    // procede with function below
   }
 
   fillBeds(sleepers, beds) {
@@ -68,4 +89,34 @@ export default class Assigner {
 }
 
 const getGuestCount = sleepers =>
-  _.reduce(sleepers, (count, sleeper) => (count += sleeper.guests.length), 0);
+  _.reduce(sleepers, (count, sleeper) => (count += sleeper.getGuestCount()), 0);
+
+// export only for testing
+export const getTotalBedCapacity = beds => _.sumBy(beds, 'capacity');
+
+// export only for testing
+export const partitionByBedCount = (sleepers, beds) => {
+  sleepers = sleepers.slice();
+  const sleepersWithSpot = getSleepersWithSpot(sleepers, beds);
+  const sleepersWithoutSpot = _.xor(sleepersWithSpot, sleepers);
+
+  return [sleepersWithSpot, sleepersWithoutSpot];
+};
+
+const getSleepersWithSpot = (sleepers, beds) => {
+  const sleepersWithSpot = [];
+  let bedSpots = getTotalBedCapacity(beds);
+  for (const sleeper of sleepers) {
+    if (bedSpots <= 0) {
+      break;
+    }
+    const guestCount = sleeper.getGuestCount();
+    if (guestCount > bedSpots) {
+      break;
+    }
+    sleepersWithSpot.push(sleeper);
+    bedSpots -= guestCount;
+  }
+
+  return sleepersWithSpot;
+};

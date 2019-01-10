@@ -3,8 +3,8 @@ import _ from 'lodash';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import BedSection from '../components/BedSection';
 import Assigner from '../utils/Assigner';
-import Bed from '../utils/classses/Bed';
-import Sleeper from '../utils/classses/Sleeper';
+import Bed from '../utils/classes/Bed';
+import Sleeper from '../utils/classes/Sleeper';
 
 const getTahoeBeds = () => [
   new Bed('twin', 'Upstairs twin'),
