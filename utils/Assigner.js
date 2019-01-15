@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { KING, QUEEN, FULL, TWIN } from '../constants/BedTypes';
 import SleeperCouple from './classes/SleeperCouple';
+import GuestFetcher from './classes/GuestFetcher';
 
 const BED_SORT_WEIGHTS = {
   [KING]: 4,
@@ -12,7 +13,7 @@ const BED_SORT_WEIGHTS = {
 export default class Assigner {
   constructor(sleepers, beds) {
     this.sleepers = sleepers;
-    this.sortedBeds = this.sortBeds(beds);
+    this.sortedBeds = this.sortBeds(beds); // remove sorting
   }
 
   sortBeds(beds) {
@@ -38,27 +39,19 @@ export default class Assigner {
     );
     const [doubleBeds, singleBeds] = partitionBedsByCapacity(this.sortedBeds);
     const shuffledDoubleBeds = _.shuffle(doubleBeds);
-    // assign as many couples into double beds as possible
-    // combine remaining sleeper arrays
-    // combine and sort remaining beds arrays
+    const doubleBedsWithCouples = this.fillBeds(
+      sleeperCouples,
+      shuffledDoubleBeds
+    );
+    const allSleepersWithBeds = _.concat(sleeperCouples, sleeperSingles);
+    const shuffledAllSleepersWithBeds = _.shuffle(allSleepersWithBeds);
+    const allBedsSorted = this.sortBeds(_.concat(doubleBeds, singleBeds));
     // procede with function below
   }
 
   fillBeds(sleepers, beds) {
     let remainingGuestCount = getGuestCount(sleepers);
-    let currentSleeperIndex = 0;
-
-    // TODO: refactor
-    const getNextGuest = () => {
-      const currentSleeper = sleepers[currentSleeperIndex];
-      const nextGuest = currentSleeper.getGuest();
-  
-      if (currentSleeper.allAsigned()) {
-        currentSleeperIndex++;
-      }
-  
-      return nextGuest;
-    };
+    const guestFetcher = new GuestFetcher(sleepers);
 
     return _.map(beds, (bed, bedIndex) => {
       const remainingBedsCount = beds.length - bedIndex;
@@ -69,13 +62,13 @@ export default class Assigner {
 
       if (remainingGuestCount <= remainingBedsCount) {
         // asign one guest per bed
-        const guest = getNextGuest(sleepers);
+        const guest = guestFetcher.getNextGuest();
         remainingGuestCount--;
         bed.add(guest);
       } else {
         // fill bed
         while (!bed.isFull()) {
-          const guest = getNextGuest(sleepers);
+          const guest = guestFetcher.getNextGuest();
           // TODO maybe a bug here if no more we run out of guests
           remainingGuestCount--;
           bed.add(guest);

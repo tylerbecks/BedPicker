@@ -5,6 +5,9 @@ export default class Sleeper {
   }
 
   getGuest = () => {
+    if (this.allAsigned()) {
+      throw new Error('All guests already assigned');
+    }
     const guest = this.guests[this.nextAssignedIndex];
     this.nextAssignedIndex++;
     return guest;
