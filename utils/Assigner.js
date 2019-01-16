@@ -24,29 +24,26 @@ export default class Assigner {
 
   createAssignment() {
     const shuffledSleepers = _.shuffle(this.sleepers);
-    const beds = this.fillBeds(shuffledSleepers, this.sortedBeds);
-    return { beds, date: Date() };
-  }
-
-  fillBeds2() {
-    const shuffledSleepers = _.shuffle(this.sleepers);
     const [
       sleepersWithBeds,
       sleepersWithoutBeds
-    ] = partitionGuestsByBedCapacity(this.sortedBeds, shuffledSleepers);
-    const [sleeperCouples, sleeperSingles] = partitionSinglesCouples(
-      sleepersWithBeds
-    );
+    ] = partitionGuestsByBedCapacity(shuffledSleepers, this.sortedBeds);
+
+    const beds = this.assignCouplesAndSingles(sleepersWithBeds);
+    return { beds, sleepersWithoutBeds, date: Date() };
+  }
+
+  assignCouplesAndSingles(sleepers) {
+    const [sleeperCouples, sleeperSingles] = partitionSinglesCouples(sleepers);
     const [doubleBeds, singleBeds] = partitionBedsByCapacity(this.sortedBeds);
     const shuffledDoubleBeds = _.shuffle(doubleBeds);
-    const doubleBedsWithCouples = this.fillBeds(
-      sleeperCouples,
-      shuffledDoubleBeds
-    );
-    const allSleepersWithBeds = _.concat(sleeperCouples, sleeperSingles);
-    const shuffledAllSleepersWithBeds = _.shuffle(allSleepersWithBeds);
+    this.fillBeds(sleeperCouples, shuffledDoubleBeds);
+
+    const allSleepers = _.concat(sleeperCouples, sleeperSingles);
+    const shuffledAllSleepers = _.shuffle(allSleepers);
     const allBedsSorted = this.sortBeds(_.concat(doubleBeds, singleBeds));
-    // procede with function below
+
+    return this.fillBeds(shuffledAllSleepers, allBedsSorted);
   }
 
   fillBeds(sleepers, beds) {

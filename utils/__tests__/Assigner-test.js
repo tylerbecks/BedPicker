@@ -223,14 +223,47 @@ describe('createAssignment', () => {
     ]);
   });
 
-  // it('assigns couples to the same bed, if there is a big bed', () => {
-  //   const couple = new SleeperCouple(guest1, guest2);
-  //   const dummySleepers = [sleeper3, couple];
-  //   const assigner = new Assigner(dummySleepers, [twinBed1, queenBed]);
-  //   const result = assigner.createAssignment();
-  //   expect(result.beds).toEqual([
-  //     Object.assign(_.cloneDeep(queenBed), { guests: [guest1, guest2] }),
-  //     Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] })
-  //   ]);
-  // });
+  it('assigns couples to the same bed, if there is a big bed', () => {
+    const couple = new SleeperCouple(guest1, guest2);
+    const dummySleepers = [sleeper3, couple];
+    const assigner = new Assigner(dummySleepers, [twinBed1, queenBed]);
+    const result = assigner.createAssignment();
+    expect(result.beds).toEqual([
+      Object.assign(_.cloneDeep(queenBed), { guests: [guest1, guest2] }),
+      Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] })
+    ]);
+  });
+
+  it('leaves couples without a bed if they are left out from the initial shuffle', () => {
+    const couple = new SleeperCouple(guest1, guest2);
+    const dummySleepers = [sleeper3, sleeper4, couple];
+    const assigner = new Assigner(dummySleepers, [twinBed1, queenBed]);
+    const result = assigner.createAssignment();
+    expect(result.beds).toEqual([
+      Object.assign(_.cloneDeep(queenBed), { guests: [guest3] }),
+      Object.assign(_.cloneDeep(twinBed1), { guests: [guest4] })
+    ]);
+  });
+
+  it('leaves a bed empty if the last bed is a single and the last sleeper is a couple', () => {
+    const couple = new SleeperCouple(guest1, guest2);
+    const dummySleepers = [sleeper3, couple];
+    const assigner = new Assigner(dummySleepers, [twinBed1, twinBed2]);
+    const result = assigner.createAssignment();
+    expect(result.beds).toEqual([
+      Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] }),
+      Object.assign(_.cloneDeep(twinBed2), { guests: [] })
+    ]);
+  });
+
+  it('leaves a bed empty if the last bed is a single and the last sleeper is a couple', () => {
+    const couple = new SleeperCouple(guest1, guest2);
+    const dummySleepers = [sleeper3, couple];
+    const assigner = new Assigner(dummySleepers, [twinBed1, twinBed2]);
+    const result = assigner.createAssignment();
+    expect(result.beds).toEqual([
+      Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] }),
+      Object.assign(_.cloneDeep(twinBed2), { guests: [] })
+    ]);
+  });
 });
