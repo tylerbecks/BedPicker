@@ -7,11 +7,22 @@ import {
 
 import TabBarIcon from '../components/TabBarIcon';
 import AssignmentScreen from '../screens/AssignmentScreen';
+import CoupleScreen from '../screens/CoupleScreen';
 import GuestSelectionScreen from '../screens/GuestSelectionScreen';
 
-const GuestSelectionStack = createStackNavigator({
-  GuestSelection: GuestSelectionScreen
-});
+const GuestSelectionStack = createStackNavigator(
+  {
+    GuestSelection: {
+      screen: GuestSelectionScreen
+    },
+    Couple: {
+      screen: CoupleScreen
+    }
+  },
+  {
+    initialRouteName: 'Home'
+  }
+);
 
 GuestSelectionStack.navigationOptions = {
   tabBarLabel: 'Create',
@@ -28,7 +39,7 @@ const AssignmentStack = createStackNavigator({
 });
 
 AssignmentStack.navigationOptions = {
-  tabBarLabel: 'Assignment',
+  tabBarLabel: 'View',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const SubmitButton = ({ onPress, disabled }) => (
+const SubmitButton = ({ onPress, disabled, text }) => (
   <TouchableOpacity
     activeOpacity={disabled ? 1 : 0.7}
     style={disabled ? { ...styles.button, ...styles.disabled } : styles.button}
     onPress={onPress}
     disabled={disabled}
   >
-    <Text style={styles.text}>Submit</Text>
+    <Text style={styles.text}>{text}</Text>
   </TouchableOpacity>
 );
 

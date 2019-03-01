@@ -255,15 +255,4 @@ describe('createAssignment', () => {
       Object.assign(_.cloneDeep(twinBed2), { guests: [] })
     ]);
   });
-
-  it('leaves a bed empty if the last bed is a single and the last sleeper is a couple', () => {
-    const couple = new SleeperCouple(guest1, guest2);
-    const dummySleepers = [sleeper3, couple];
-    const assigner = new Assigner(dummySleepers, [twinBed1, twinBed2]);
-    const result = assigner.createAssignment();
-    expect(result.beds).toEqual([
-      Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] }),
-      Object.assign(_.cloneDeep(twinBed2), { guests: [] })
-    ]);
-  });
 });

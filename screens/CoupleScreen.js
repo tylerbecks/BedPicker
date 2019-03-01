@@ -1,18 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import MultiAddModal from '../components/MultiAddModal';
 import PhotoSelectButton from '../components/PhotoSelectButton';
 import TextSelectButton from '../components/TextSelectButton';
 import SubmitButton from '../components/SubmitButton';
 import CircleButton from '../components/CircleButton';
 import DEFAULT_GUESTS from '../constants/DefaultGuests';
 
-export default class AssignmentScreen extends React.Component {
+export default class CoupleScreen extends React.Component {
   state = {
     selectedGuests: [],
-    guests: DEFAULT_GUESTS,
-    isModalVisible: false
+    guests: DEFAULT_GUESTS
   };
 
   onPressGuest = guest => {
@@ -23,32 +21,11 @@ export default class AssignmentScreen extends React.Component {
     this.setState({ selectedGuests });
   };
 
-  onClickNext = () => {
-    const { push } = this.props.navigation;
+  onSubmit = () => {
+    const { navigate } = this.props.navigation;
     const { selectedGuests } = this.state;
 
-    push('Couple', { selectedGuests });
-  };
-
-  addGuest = guestName => {
-    const newGuest = {
-      name: guestName,
-      photo: null
-    };
-
-    this.setState({
-      guests: this.state.guests.concat(newGuest)
-    });
-    this.scrollToBottom();
-  };
-
-  openModal = () => {
-    this.setState({ isModalVisible: true });
-    this.scrollToBottom();
-  };
-
-  closeModal = () => {
-    this.setState({ isModalVisible: false });
+    navigate('Assignment', { selectedGuests });
   };
 
   scrollToBottom = () => {
@@ -90,19 +67,10 @@ export default class AssignmentScreen extends React.Component {
             </CircleButton>
           </View>
           <SubmitButton
-            onPress={this.onClickNext}
+            onPress={this.onSubmit}
             disabled={this.state.selectedGuests.length === 0}
-            text="Next"
           />
-          {this.state.isModalVisible && <View style={{ height: 350 }} />}
         </ScrollView>
-
-        <MultiAddModal
-          placeholder="Guest name..."
-          isVisible={this.state.isModalVisible}
-          close={this.closeModal}
-          onSubmit={this.addGuest}
-        />
       </View>
     );
   }
