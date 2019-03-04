@@ -31,14 +31,11 @@ export default class AssignmentScreen extends React.Component {
   };
 
   addGuest = guestName => {
-    const newGuest = {
-      id: _.uniqueId(),
-      name: guestName,
-      photo: null
-    };
+    const newGuest = { id: _.uniqueId(), name: guestName, photo: null };
 
     this.setState({
-      guests: this.state.guests.concat(newGuest)
+      guests: this.state.guests.concat(newGuest),
+      selectedGuests: _.concat(this.state.selectedGuests, newGuest)
     });
     this.scrollToBottom();
   };
