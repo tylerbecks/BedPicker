@@ -5,6 +5,7 @@ exports[`renders 1`] = `
   style={
     Object {
       "flexDirection": "row",
+      "flexWrap": "wrap",
       "marginBottom": 20,
     }
   }
@@ -18,35 +19,63 @@ exports[`renders 1`] = `
       }
     }
   >
-    <Image
+    <View
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#CFD8DC",
+          "backgroundColor": "#2196F3",
           "borderColor": "black",
           "borderRadius": 20,
           "borderWidth": 2,
           "height": 40,
+          "justifyContent": "center",
           "width": 40,
           "zIndex": 2,
         }
       }
-    />
-    <Image
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "textAlign": "center",
+          }
+        }
+      >
+        f
+      </Text>
+    </View>
+    <View
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#CFD8DC",
+          "backgroundColor": "#2196F3",
           "borderColor": "black",
           "borderRadius": 20,
           "borderWidth": 2,
           "height": 40,
+          "justifyContent": "center",
           "marginLeft": -7,
           "width": 40,
           "zIndex": 1,
         }
       }
-    />
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "textAlign": "center",
+          }
+        }
+      >
+        b
+      </Text>
+    </View>
   </View>
 </View>
 `;

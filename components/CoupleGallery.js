@@ -1,22 +1,31 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Text } from 'react-native';
 
 const CoupleGallery = ({ couples }) => (
   <View style={styles.container}>
     {couples.map(([partner1, partner2]) => (
       <View style={styles.couple} key={partner1.id}>
-        <Image
+        <ImageOrTextCircle
           style={{ ...styles.circle, ...styles.firstImage }}
-          source={partner1.photo}
+          guest={partner1}
         />
-        <Image
+        <ImageOrTextCircle
           style={{ ...styles.circle, ...styles.secondImage }}
-          source={partner2.photo}
+          guest={partner2}
         />
       </View>
     ))}
   </View>
 );
+
+const ImageOrTextCircle = ({ style, guest }) =>
+  guest.photo ? (
+    <Image style={style} source={guest.photo} />
+  ) : (
+    <View style={{ ...style, ...styles.textContainer }}>
+      <Text style={styles.text}>{getFirstInitial(guest.name)}</Text>
+    </View>
+  );
 
 export default CoupleGallery;
 
@@ -25,7 +34,8 @@ const AVATAR_SIZE = 40;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginBottom: 20
+    marginBottom: 20,
+    flexWrap: 'wrap'
   },
   couple: {
     alignItems: 'center',
@@ -47,5 +57,17 @@ const styles = StyleSheet.create({
   secondImage: {
     marginLeft: -7,
     zIndex: 1
+  },
+  textContainer: {
+    backgroundColor: '#2196F3',
+    justifyContent: 'center'
+  },
+  text: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
   }
 });
+
+const getFirstInitial = name => name.charAt(0);
