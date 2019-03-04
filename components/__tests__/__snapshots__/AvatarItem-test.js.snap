@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders when guests have photos 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "marginLeft": 20,
+      "paddingVertical": 8,
+    }
+  }
+>
+  <Image
+    source={Object {}}
+    style={
+      Object {
+        "borderRadius": 20,
+        "height": 40,
+        "marginRight": 10,
+        "width": 40,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "fontSize": 14,
+      }
+    }
+  >
+    baz
+  </Text>
+</View>
+`;

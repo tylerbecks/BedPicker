@@ -255,4 +255,29 @@ describe('createAssignment', () => {
       Object.assign(_.cloneDeep(twinBed2), { guests: [] })
     ]);
   });
+
+  it('works with mixed couples and singles with less guests than beds', () => {
+    const couple = new SleeperCouple(guest1, guest2);
+    const dummySleepers = [sleeper3, couple];
+    const assigner = new Assigner(dummySleepers, [
+      queenBed,
+      twinBed1,
+      twinBed2
+    ]);
+    const result = assigner.createAssignment();
+    expect(result.beds).toEqual([
+      Object.assign(_.cloneDeep(queenBed), { guests: [guest1, guest2] }),
+      Object.assign(_.cloneDeep(twinBed1), { guests: [guest3] }),
+      Object.assign(_.cloneDeep(twinBed2), { guests: [] })
+    ]);
+  });
+
+  it('returns a list of guests without beds if there are more guests than beds', () => {
+    const couple1 = new SleeperCouple(guest1, guest2);
+    const couple2 = new SleeperCouple(guest3, guest4);
+    const dummySleepers = [couple1, couple2, sleeper5];
+    const assigner = new Assigner(dummySleepers, [queenBed]);
+    const result = assigner.createAssignment();
+    expect(result.guestsWithoutBeds).toEqual([guest3, guest4, guest5]);
+  });
 });

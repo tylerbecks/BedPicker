@@ -1,8 +1,8 @@
 const tintColor = '#2f95dc';
 
-export default {
+export default Object.freeze({
   tintColor,
   tabIconDefault: '#ccc',
   tabIconSelected: tintColor,
   tabBar: '#fefefe'
-};
+});

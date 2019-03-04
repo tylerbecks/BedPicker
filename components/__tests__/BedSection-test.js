@@ -5,14 +5,8 @@ import renderer from 'react-test-renderer';
 
 it('renders when guests have photos', () => {
   const guests = [
-    {
-      name: 'foo',
-      photo: {}
-    },
-    {
-      name: 'bar',
-      photo: {}
-    }
+    { id: 1, name: 'foo', photo: {} },
+    { id: 2, name: 'bar', photo: {} }
   ];
 
   expect(
@@ -21,12 +15,7 @@ it('renders when guests have photos', () => {
 });
 
 it('renders when guests have no photo', () => {
-  const guests = [
-    {
-      name: 'foo',
-      photo: null
-    }
-  ];
+  const guests = [{ id: 1, name: 'foo', photo: null }];
 
   expect(
     renderer.create(<BedSection name="baz" guests={guests} />).toJSON()

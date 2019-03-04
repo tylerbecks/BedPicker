@@ -32,6 +32,7 @@ export default class AssignmentScreen extends React.Component {
 
   addGuest = guestName => {
     const newGuest = {
+      id: _.uniqueId(),
       name: guestName,
       photo: null
     };

@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 const CircleButton = ({ onPress, children, style }) => (
   <TouchableOpacity
     activeOpacity={0.4}
-    style={{ ...styles.button, ...style }}
+    style={{ ...styles.circle, ...style }}
     onPress={onPress}
   >
     {children}
@@ -16,7 +16,7 @@ export default CircleButton;
 export const BUTTON_SIZE = 90;
 
 const styles = StyleSheet.create({
-  button: {
+  circle: {
     alignItems: 'center',
     backgroundColor: '#CFD8DC',
     borderRadius: BUTTON_SIZE,

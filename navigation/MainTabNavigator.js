@@ -4,13 +4,12 @@ import {
   createStackNavigator,
   createBottomTabNavigator
 } from 'react-navigation';
-
 import TabBarIcon from '../components/TabBarIcon';
 import AssignmentScreen from '../screens/AssignmentScreen';
 import CoupleScreen from '../screens/CoupleScreen';
 import GuestSelectionScreen from '../screens/GuestSelectionScreen';
 
-const GuestSelectionStack = createStackNavigator(
+const CreationStack = createStackNavigator(
   {
     GuestSelection: {
       screen: GuestSelectionScreen
@@ -20,11 +19,11 @@ const GuestSelectionStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'GuestSelection'
   }
 );
 
-GuestSelectionStack.navigationOptions = {
+CreationStack.navigationOptions = {
   tabBarLabel: 'Create',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -49,6 +48,6 @@ AssignmentStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  GuestSelectionStack,
+  CreationStack,
   AssignmentStack
 });

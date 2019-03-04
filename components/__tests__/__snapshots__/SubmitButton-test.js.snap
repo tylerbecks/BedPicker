@@ -31,8 +31,6 @@ exports[`renders with blue background when selected 1`] = `
         "fontWeight": "bold",
       }
     }
-  >
-    Submit
-  </Text>
+  />
 </View>
 `;

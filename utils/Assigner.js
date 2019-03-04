@@ -30,7 +30,9 @@ export default class Assigner {
     ] = partitionGuestsByBedCapacity(shuffledSleepers, this.sortedBeds);
 
     const beds = this.assignCouplesAndSingles(sleepersWithBeds);
-    return { beds, sleepersWithoutBeds, date: Date() };
+    const guestsWithoutBeds = unpackGuests(sleepersWithoutBeds);
+
+    return { beds, guestsWithoutBeds, date: Date() };
   }
 
   assignCouplesAndSingles(sleepers) {
@@ -47,11 +49,14 @@ export default class Assigner {
   }
 
   fillBeds(sleepers, beds) {
-    let remainingGuestCount = getGuestCount(sleepers);
+    let remainingGuestCount = getUnassignedGuestCount(sleepers);
     const guestFetcher = new GuestFetcher(sleepers);
 
     return _.map(beds, (bed, bedIndex) => {
       const remainingBedsCount = beds.length - bedIndex;
+      if (bed.isFull()) {
+        return bed;
+      }
 
       if (remainingGuestCount === 0) {
         return bed;
@@ -77,8 +82,12 @@ export default class Assigner {
   }
 }
 
-const getGuestCount = sleepers =>
-  _.reduce(sleepers, (count, sleeper) => (count += sleeper.getGuestCount()), 0);
+const getUnassignedGuestCount = sleepers =>
+  _.reduce(
+    sleepers,
+    (count, sleeper) => (count += sleeper.getUnassignedGuestCount()),
+    0
+  );
 
 // export only for testing
 export const getTotalBedCapacity = beds => _.sumBy(beds, 'capacity');
@@ -99,7 +108,7 @@ const getSleepersWithSpot = (sleepers, beds) => {
     if (bedSpots <= 0) {
       break;
     }
-    const guestCount = sleeper.getGuestCount();
+    const guestCount = sleeper.getUnassignedGuestCount();
     if (guestCount > bedSpots) {
       break;
     }
@@ -115,3 +124,10 @@ export const partitionSinglesCouples = sleepers =>
 
 export const partitionBedsByCapacity = beds =>
   _.partition(beds, b => b.capacity > 1);
+
+const unpackGuests = sleepers => {
+  return _(sleepers)
+    .map('guests')
+    .flatten()
+    .value();
+};

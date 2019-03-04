@@ -505,7 +505,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
         </Text>
       </View>
       <View
-        accessibilityLabel="Assignment"
+        accessibilityLabel="View"
         accessible={true}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -631,7 +631,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
             }
           }
         >
-          Assignment
+          View
         </Text>
       </View>
     </View>

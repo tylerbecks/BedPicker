@@ -2,16 +2,15 @@ import React from 'react';
 import _ from 'lodash';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import BedSection from '../components/BedSection';
+import AvatarItem from '../components/AvatarItem';
 import Assigner from '../utils/Assigner';
 import Bed from '../utils/classes/Bed';
-import Sleeper from '../utils/classes/Sleeper';
 
 const getTahoeBeds = () => [
+  new Bed('queen', 'Master Queen'),
   new Bed('twin', 'Upstairs twin'),
-  new Bed('queen', 'Master'),
   new Bed('twin', 'Upstairs twin'),
-  new Bed('full', 'Upstairs full'),
-  new Bed('full', 'Couch')
+  new Bed('full', 'Upstairs full')
 ];
 
 export default class AssignmentScreen extends React.Component {
@@ -19,23 +18,22 @@ export default class AssignmentScreen extends React.Component {
     assignment: null
   };
 
-  selectedGuests = null;
+  sleepers = null;
 
   componentDidMount() {
-    const selectedGuests = this.props.navigation.getParam('selectedGuests', []);
-    this.setAssignment(selectedGuests);
+    const sleepers = this.props.navigation.getParam('sleepers', []);
+    this.setAssignment(sleepers);
   }
 
   componentWillReceiveProps(nextProps) {
-    const selectedGuests = nextProps.navigation.getParam('selectedGuests', []);
-    if (selectedGuests !== this.selectedGuests) {
-      this.setAssignment(selectedGuests);
+    const sleepers = nextProps.navigation.getParam('sleepers', []);
+    if (sleepers !== this.sleepers) {
+      this.setAssignment(sleepers);
     }
   }
 
-  setAssignment = selectedGuests => {
-    this.selectedGuests = selectedGuests;
-    const sleepers = _.map(selectedGuests, guest => new Sleeper(guest));
+  setAssignment = sleepers => {
+    this.sleepers = sleepers;
     const assigner = new Assigner(sleepers, getTahoeBeds());
     this.setState({ assignment: assigner.createAssignment() });
   };
@@ -60,12 +58,9 @@ export default class AssignmentScreen extends React.Component {
 
   render() {
     if (!this.state.assignment) {
-      return (
-        <View style={styles.container}>
-          <Text>No assignment yet!</Text>
-        </View>
-      );
+      return null;
     }
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -74,6 +69,10 @@ export default class AssignmentScreen extends React.Component {
         >
           {this.state.assignment.beds.map(({ name, guests }, index) => (
             <BedSection key={index} name={name} guests={guests} />
+          ))}
+          <Text style={styles.sectionHeader}>Guests without beds</Text>
+          {this.state.assignment.guestsWithoutBeds.map(guest => (
+            <AvatarItem key={guest.id} text={guest.name} photo={guest.photo} />
           ))}
           <View style={styles.dateContainer}>
             <Text style={styles.date}>{this.getFormattedDate()}</Text>
@@ -96,5 +95,10 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     alignItems: 'center'
+  },
+  sectionHeader: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 12
   }
 });
