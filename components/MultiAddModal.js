@@ -1,6 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
-import { StyleSheet, TextInput, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import Modal from 'react-native-modal';
 
 export default class MultiAddModal extends React.Component {
@@ -29,6 +35,8 @@ export default class MultiAddModal extends React.Component {
     this.setState({ text });
   };
 
+  isAddButtonDisabled = () => this.state.text.length === 0;
+
   render() {
     return (
       <Modal
@@ -43,7 +51,6 @@ export default class MultiAddModal extends React.Component {
           <TextInput
             ref={c => (this._textInput = c)}
             autoCapitalize="words"
-            // autoFocus
             blurOnSubmit={false}
             enablesReturnKeyAutomatically
             onChangeText={this.handleChangeText}
@@ -52,6 +59,21 @@ export default class MultiAddModal extends React.Component {
             value={this.state.text}
             style={styles.textInput}
           />
+          <TouchableOpacity
+            onPress={this.handleSubmitEditing}
+            style={styles.addButton}
+            disabled={this.isAddButtonDisabled()}
+          >
+            <Text
+              style={
+                this.isAddButtonDisabled()
+                  ? styles.addButtonTextDisabled
+                  : styles.addButtonText
+              }
+            >
+              Add
+            </Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     );
@@ -59,6 +81,17 @@ export default class MultiAddModal extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  addButton: {
+    alignItems: 'flex-end'
+  },
+  addButtonText: {
+    color: '#14aaf5',
+    fontSize: 16
+  },
+  addButtonTextDisabled: {
+    color: '#b7bfc6',
+    fontSize: 16
+  },
   modal: {
     justifyContent: 'flex-end',
     margin: 0
@@ -66,6 +99,9 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: 'white',
     borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     height: '50%',
     padding: 20
   },

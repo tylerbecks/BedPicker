@@ -90,9 +90,12 @@ exports[`renders 1`] = `
     <View
       style={
         Object {
+          "alignItems": "flex-start",
           "backgroundColor": "white",
           "borderRadius": 10,
+          "flexDirection": "row",
           "height": "50%",
+          "justifyContent": "space-between",
           "padding": 20,
         }
       }
@@ -111,6 +114,33 @@ exports[`renders 1`] = `
         }
         value=""
       />
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#b7bfc6",
+              "fontSize": 16,
+            }
+          }
+        >
+          Add
+        </Text>
+      </View>
     </View>
   </View>
 </Modal>
