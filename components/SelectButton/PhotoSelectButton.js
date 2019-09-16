@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
-import CircleButton, { BUTTON_SIZE } from './CircleButton';
+import CircleButton, { BUTTON_SIZE } from '../CircleButton';
 
 const PhotoSelectButton = ({ text, photo, onPress, selected }) => (
   <CircleButton onPress={onPress}>

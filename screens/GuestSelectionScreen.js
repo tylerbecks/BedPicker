@@ -1,11 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import MultiAddModal from '../components/MultiAddModal';
-import PhotoSelectButton from '../components/PhotoSelectButton';
-import TextSelectButton from '../components/TextSelectButton';
-import SubmitButton from '../components/SubmitButton';
 import CircleButton from '../components/CircleButton';
+import MultiAddModal from '../components/MultiAddModal';
+import SelectButton from '../components/SelectButton';
+import SubmitButton from '../components/SubmitButton';
 import DEFAULT_GUESTS from '../constants/DefaultGuests';
 
 export default class AssignmentScreen extends React.Component {
@@ -65,24 +64,15 @@ export default class AssignmentScreen extends React.Component {
         >
           <Text style={styles.titleText}>Who's here?</Text>
           <View style={styles.guestSelectButtonsContainer}>
-            {this.state.guests.map((guest, index) =>
-              guest.photo ? (
-                <PhotoSelectButton
-                  key={index}
-                  text={guest.name}
-                  photo={guest.photo}
-                  onPress={() => this.onPressGuest(guest)}
-                  selected={this.state.selectedGuests.includes(guest)}
-                />
-              ) : (
-                <TextSelectButton
-                  key={index}
-                  text={guest.name}
-                  onPress={() => this.onPressGuest(guest)}
-                  selected={this.state.selectedGuests.includes(guest)}
-                />
-              )
-            )}
+            {this.state.guests.map(guest => (
+              <SelectButton
+                key={guest.name}
+                text={guest.name}
+                photo={guest.photo}
+                onPress={() => this.onPressGuest(guest)}
+                selected={this.state.selectedGuests.includes(guest)}
+              />
+            ))}
             <CircleButton onPress={this.openModal}>
               <Text style={styles.plusSign}>+</Text>
             </CircleButton>

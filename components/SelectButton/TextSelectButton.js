@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import CircleButton from './CircleButton';
+import CircleButton from '../CircleButton';
 
 const TextSelectButton = ({ text, onPress, selected }) => (
   <CircleButton onPress={onPress} style={selected ? styles.button : {}}>

@@ -1,10 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import PhotoSelectButton from '../components/PhotoSelectButton';
-import TextSelectButton from '../components/TextSelectButton';
-import SubmitButton from '../components/SubmitButton';
 import CoupleGallery from '../components/CoupleGallery';
+import SelectButton from '../components/SelectButton';
+import SubmitButton from '../components/SubmitButton';
 import convertGuestsToSleepers from '../utils/convertGuestsToSleepers';
 
 export default class CoupleScreen extends React.Component {
@@ -111,30 +110,18 @@ export default class CoupleScreen extends React.Component {
           <CoupleGallery couples={couples} />
 
           <View style={styles.guestSelectButtonsContainer}>
-            {selectedGuests.map((guest, index) =>
-              guest.photo ? (
-                <PhotoSelectButton
-                  key={index}
-                  text={guest.name}
-                  photo={guest.photo}
-                  onPress={() => this.onPressGuest(guest)}
-                  selected={
-                    guest === stagedGuest ||
-                    this.getCoupleKey(guest, coupledGuestsIdMap)
-                  }
-                />
-              ) : (
-                <TextSelectButton
-                  key={index}
-                  text={guest.name}
-                  onPress={() => this.onPressGuest(guest)}
-                  selected={
-                    guest === stagedGuest ||
-                    this.getCoupleKey(guest, coupledGuestsIdMap)
-                  }
-                />
-              )
-            )}
+            {selectedGuests.map(guest => (
+              <SelectButton
+                key={guest.name}
+                text={guest.name}
+                photo={guest.photo}
+                onPress={() => this.onPressGuest(guest)}
+                selected={
+                  guest === stagedGuest ||
+                  this.getCoupleKey(guest, coupledGuestsIdMap)
+                }
+              />
+            ))}
           </View>
           <SubmitButton
             onPress={this.onSubmit}
