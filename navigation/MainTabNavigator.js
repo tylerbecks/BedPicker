@@ -19,33 +19,35 @@ const CreationStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'GuestSelection'
+    initialRouteName: 'GuestSelection',
+    navigationOptions: {
+      tabBarLabel: 'Create',
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+          focused={focused}
+          name={Platform.OS === 'ios' ? 'ios-people' : 'md-people'}
+        />
+      )
+    }
   }
 );
 
-CreationStack.navigationOptions = {
-  tabBarLabel: 'Create',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-people' : 'md-people'}
-    />
-  )
-};
-
-const AssignmentStack = createStackNavigator({
-  Assignment: AssignmentScreen
-});
-
-AssignmentStack.navigationOptions = {
-  tabBarLabel: 'View',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-bed' : 'md-bed'}
-    />
-  )
-};
+const AssignmentStack = createStackNavigator(
+  {
+    Assignment: AssignmentScreen
+  },
+  {
+    navigationOptions: {
+      tabBarLabel: 'View',
+      tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+          focused={focused}
+          name={Platform.OS === 'ios' ? 'ios-bed' : 'md-bed'}
+        />
+      )
+    }
+  }
+);
 
 export default createBottomTabNavigator({
   CreationStack,
