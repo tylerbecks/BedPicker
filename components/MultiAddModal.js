@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Modal from "react-native-modal";
 import {
   StyleSheet,
   Text,
@@ -6,7 +7,6 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import Modal from "react-native-modal";
 
 const styles = StyleSheet.create({
   addButton: {
@@ -38,91 +38,90 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class MultiAddModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: ""
-    };
+export default ({ onSubmit, isVisible, close, placeholder }) => {
+  const [text, setText] = useState("");
+  const textInput = useRef(null);
 
-    this.handleChangeText = this.handleChangeText.bind(this);
-    this.handleSubmitEditing = this.handleSubmitEditing.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.isVisible && this.textInput) {
-      this.textInput.blur();
+  const handleInputBlur = () => {
+    if (!textInput.current) {
+      return;
+    }
+    if (!isVisible) {
+      textInput.current.blur();
+      return;
     }
 
-    if (nextProps.isVisible) {
-      setTimeout(() => {
-        this.textInput.focus();
-      }, 20);
-    }
-  }
+    setTimeout(() => {
+      textInput.current.focus();
+    }, 20);
+  };
 
-  handleSubmitEditing() {
-    const { onSubmit } = this.props;
-    const { text } = this.state;
+  useEffect(() => {
+    handleInputBlur();
+  });
 
+  const handleSubmitEditing = () => {
     onSubmit(text);
-    this.setState({ text: "" });
-  }
+    setText("");
+  };
 
-  handleChangeText(text) {
-    this.setState({ text });
-  }
+  const handleChangeText = newText => {
+    setText(newText);
+  };
 
-  isAddButtonDisabled() {
-    const { text } = this.state;
+  const isAddButtonDisabled = () => text.length === 0;
 
-    return text.length === 0;
-  }
-
-  render() {
-    const { isVisible, close, placeholder } = this.props;
-    const { text } = this.state;
-
-    return (
-      <Modal
-        isVisible={isVisible}
-        onBackdropPress={close}
-        onSwipe={close}
-        swipeDirection="down"
-        style={styles.modal}
-        backdropOpacity={0.5}
-      >
-        <View style={styles.modalContent}>
-          <TextInput
-            ref={c => {
-              this.textInput = c;
-            }}
-            autoCapitalize="words"
-            blurOnSubmit={false}
-            enablesReturnKeyAutomatically
-            onChangeText={this.handleChangeText}
-            onSubmitEditing={this.handleSubmitEditing}
-            placeholder={placeholder}
-            value={text}
-            style={styles.textInput}
-          />
-          <TouchableOpacity
-            onPress={this.handleSubmitEditing}
-            style={styles.addButton}
-            disabled={this.isAddButtonDisabled()}
+  return (
+    <Modal
+      isVisible={isVisible}
+      onBackdropPress={close}
+      onSwipe={close}
+      swipeDirection="down"
+      style={styles.modal}
+      backdropOpacity={0.5}
+    >
+      <View style={styles.modalContent}>
+        <TextInput
+          ref={textInput}
+          autoCapitalize="words"
+          blurOnSubmit={false}
+          enablesReturnKeyAutomatically
+          onChangeText={handleChangeText}
+          onSubmitEditing={handleSubmitEditing}
+          placeholder={placeholder}
+          value={text}
+          style={styles.textInput}
+        />
+        <TouchableOpacity
+          onPress={handleSubmitEditing}
+          style={styles.addButton}
+          disabled={isAddButtonDisabled()}
+        >
+          <Text
+            style={
+              isAddButtonDisabled()
+                ? styles.addButtonTextDisabled
+                : styles.addButtonText
+            }
           >
-            <Text
-              style={
-                this.isAddButtonDisabled()
-                  ? styles.addButtonTextDisabled
-                  : styles.addButtonText
-              }
-            >
-              Add
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-    );
-  }
-}
+            Add
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
+};
+
+// export default class MultiAddModal extends React.Component {
+//   componentWillReceiveProps(nextProps) {
+//     if (!nextProps.isVisible && this.textInput) {
+//       this.textInput.blur();
+//     }
+
+//     if (nextProps.isVisible) {
+//       setTimeout(() => {
+//         this.textInput.focus();
+//       }, 20);
+//     }
+//   }
+// }
