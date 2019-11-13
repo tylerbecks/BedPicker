@@ -17,6 +17,8 @@
     "@expo/samples": "2.1.1",
     "@expo/vector-icons": "^10.0.6",
     "expo": "^35.0.0",
+    "expo-asset": "^7.0.0",
+    "expo-font": "^7.0.0",
     "lodash": "^4.17.11",
     "mockdate": "^2.0.5",
     "react": "16.8.3",
@@ -35,10 +37,12 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.3",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "jest-expo": "^35.0.0"
+    "jest-expo": "^35.0.0",
+    "react-test-renderer": "^16.11.0"
   },
   "private": true
 }
