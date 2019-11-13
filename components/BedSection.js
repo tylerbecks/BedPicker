@@ -1,6 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import AvatarItem from './AvatarItem';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import AvatarItem from "./AvatarItem";
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 20
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 12
+  }
+});
 
 const BedSection = ({ name, guests }) => (
   <View style={styles.container}>
@@ -12,14 +23,3 @@ const BedSection = ({ name, guests }) => (
 );
 
 export default BedSection;
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 12
-  }
-});

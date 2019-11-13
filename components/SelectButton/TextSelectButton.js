@@ -1,6 +1,20 @@
-import React from 'react';
-import { StyleSheet, Text } from 'react-native';
-import CircleButton from '../CircleButton';
+import React from "react";
+import { StyleSheet, Text } from "react-native";
+import CircleButton from "../CircleButton";
+
+const styles = StyleSheet.create({
+  text: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  selectedText: {
+    color: "white"
+  },
+  button: {
+    backgroundColor: "#2196F3"
+  }
+});
 
 const TextSelectButton = ({ text, onPress, selected }) => (
   <CircleButton onPress={onPress} style={selected ? styles.button : {}}>
@@ -15,17 +29,3 @@ const TextSelectButton = ({ text, onPress, selected }) => (
 );
 
 export default TextSelectButton;
-
-const styles = StyleSheet.create({
-  text: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  selectedText: {
-    color: 'white'
-  },
-  button: {
-    backgroundColor: '#2196F3'
-  }
-});

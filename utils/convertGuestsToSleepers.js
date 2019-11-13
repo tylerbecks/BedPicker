@@ -1,13 +1,14 @@
-import _ from 'lodash';
-import Sleeper from './classes/Sleeper';
-import SleeperCouple from './classes/SleeperCouple';
+import _ from "lodash";
+import Sleeper from "./classes/Sleeper";
+import SleeperCouple from "./classes/SleeperCouple";
 
 export default (guests, coupledGuestsIdMap) => {
-  guests = guests.slice();
+  const guestsCopy = guests.slice();
   const couples = [];
+
   _.each(coupledGuestsIdMap, (guestId1, guestId2) => {
     const [guest1, guest2] = _.remove(
-      guests,
+      guestsCopy,
       g => g.id === guestId1 || g.id === guestId2
     );
     if (!guest1) {
@@ -19,6 +20,6 @@ export default (guests, coupledGuestsIdMap) => {
     couples.push(new SleeperCouple(guest1, guest2));
   });
 
-  const singleSleepers = _.map(guests, g => new Sleeper(g));
+  const singleSleepers = _.map(guestsCopy, g => new Sleeper(g));
   return couples.concat(singleSleepers);
 };

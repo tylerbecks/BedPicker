@@ -1,24 +1,13 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-
-const AvatarItem = ({ photo, text }) => (
-  <View style={styles.item}>
-    <Image
-      style={styles.avatar}
-      source={photo ? photo : require('../assets/images/jerry.png')}
-    />
-    <Text style={styles.itemText}>{text}</Text>
-  </View>
-);
-
-export default AvatarItem;
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import JerryImage from "../assets/images/jerry.png";
 
 const AVATAR_SIZE = 40;
 
 const styles = StyleSheet.create({
   item: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     paddingVertical: 8,
     marginLeft: 20
   },
@@ -32,3 +21,12 @@ const styles = StyleSheet.create({
     marginRight: 10
   }
 });
+
+const AvatarItem = ({ photo, text }) => (
+  <View style={styles.item}>
+    <Image style={styles.avatar} source={photo || JerryImage} />
+    <Text style={styles.itemText}>{text}</Text>
+  </View>
+);
+
+export default AvatarItem;

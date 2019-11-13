@@ -9,5 +9,181 @@ exports[`renders 1`] = `
       "padding": 8,
     }
   }
-/>
+>
+  <RCTScrollView
+    contentContainerStyle={Object {}}
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "flex": 1,
+        "padding": 8,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "marginBottom": 20,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "marginBottom": 12,
+            }
+          }
+        >
+          Master Queen
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginLeft": 20,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          <Image
+            source={1}
+            style={
+              Object {
+                "borderRadius": 20,
+                "height": 40,
+                "marginRight": 10,
+                "width": 40,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "fontSize": 14,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "marginBottom": 20,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "marginBottom": 12,
+            }
+          }
+        >
+          Upstairs full
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginLeft": 20,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          <Image
+            source={1}
+            style={
+              Object {
+                "borderRadius": 20,
+                "height": 40,
+                "marginRight": 10,
+                "width": 40,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "fontSize": 14,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "marginBottom": 20,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "marginBottom": 12,
+            }
+          }
+        >
+          Upstairs twin 1
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginBottom": 20,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "marginBottom": 12,
+            }
+          }
+        >
+          Upstairs twin 2
+        </Text>
+      </View>
+      <Text
+        style={
+          Object {
+            "fontSize": 18,
+            "fontWeight": "bold",
+            "marginBottom": 12,
+          }
+        }
+      >
+        Guests without beds
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "marginTop": 20,
+            }
+          }
+        >
+          Sun, Jun 14, 2015, 3:12 PM
+        </Text>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
 `;

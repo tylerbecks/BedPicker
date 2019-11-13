@@ -1,62 +1,109 @@
-import React from 'react';
-import _ from 'lodash';
+import React from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View
-} from 'react-native';
-import Modal from 'react-native-modal';
+} from "react-native";
+import Modal from "react-native-modal";
+
+const styles = StyleSheet.create({
+  addButton: {
+    alignItems: "flex-end"
+  },
+  addButtonText: {
+    color: "#14aaf5",
+    fontSize: 16
+  },
+  addButtonTextDisabled: {
+    color: "#b7bfc6",
+    fontSize: 16
+  },
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    height: "50%",
+    padding: 20
+  },
+  textInput: {
+    marginBottom: 10
+  }
+});
 
 export default class MultiAddModal extends React.Component {
-  state = {
-    text: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: ""
+    };
+
+    this.handleChangeText = this.handleChangeText.bind(this);
+    this.handleSubmitEditing = this.handleSubmitEditing.bind(this);
+  }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isVisible && this._textInput) {
-      this._textInput.blur();
+    if (!nextProps.isVisible && this.textInput) {
+      this.textInput.blur();
     }
 
     if (nextProps.isVisible) {
       setTimeout(() => {
-        this._textInput.focus();
+        this.textInput.focus();
       }, 20);
     }
   }
 
-  handleSubmitEditing = () => {
-    this.props.onSubmit(this.state.text);
-    this.setState({ text: '' });
-  };
+  handleSubmitEditing() {
+    const { onSubmit } = this.props;
+    const { text } = this.state;
 
-  handleChangeText = text => {
+    onSubmit(text);
+    this.setState({ text: "" });
+  }
+
+  handleChangeText(text) {
     this.setState({ text });
-  };
+  }
 
-  isAddButtonDisabled = () => this.state.text.length === 0;
+  isAddButtonDisabled() {
+    const { text } = this.state;
+
+    return text.length === 0;
+  }
 
   render() {
+    const { isVisible, close, placeholder } = this.props;
+    const { text } = this.state;
+
     return (
       <Modal
-        isVisible={this.props.isVisible}
-        onBackdropPress={this.props.close}
-        onSwipe={this.props.close}
+        isVisible={isVisible}
+        onBackdropPress={close}
+        onSwipe={close}
         swipeDirection="down"
         style={styles.modal}
         backdropOpacity={0.5}
       >
         <View style={styles.modalContent}>
           <TextInput
-            ref={c => (this._textInput = c)}
+            ref={c => {
+              this.textInput = c;
+            }}
             autoCapitalize="words"
             blurOnSubmit={false}
             enablesReturnKeyAutomatically
             onChangeText={this.handleChangeText}
             onSubmitEditing={this.handleSubmitEditing}
-            placeholder={this.props.placeholder}
-            value={this.state.text}
+            placeholder={placeholder}
+            value={text}
             style={styles.textInput}
           />
           <TouchableOpacity
@@ -79,33 +126,3 @@ export default class MultiAddModal extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  addButton: {
-    alignItems: 'flex-end'
-  },
-  addButtonText: {
-    color: '#14aaf5',
-    fontSize: 16
-  },
-  addButtonTextDisabled: {
-    color: '#b7bfc6',
-    fontSize: 16
-  },
-  modal: {
-    justifyContent: 'flex-end',
-    margin: 0
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    height: '50%',
-    padding: 20
-  },
-  textInput: {
-    marginBottom: 10
-  }
-});

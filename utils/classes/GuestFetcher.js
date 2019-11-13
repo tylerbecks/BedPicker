@@ -20,7 +20,7 @@ export default class GuestFetcher {
     }
 
     if (nextSleeper.allAsigned()) {
-      this.index++;
+      this.index += 1;
       return this.getNextSleeper();
     }
 

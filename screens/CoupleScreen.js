@@ -1,87 +1,121 @@
-import React from 'react';
-import _ from 'lodash';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import CoupleGallery from '../components/CoupleGallery';
-import SelectButton from '../components/SelectButton';
-import SubmitButton from '../components/SubmitButton';
-import convertGuestsToSleepers from '../utils/convertGuestsToSleepers';
+import React from "react";
+import _ from "lodash";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import CoupleGallery from "../components/CoupleGallery";
+import SelectButton from "../components/SelectButton";
+import SubmitButton from "../components/SubmitButton";
+import convertGuestsToSleepers from "../utils/convertGuestsToSleepers";
+
+const styles = StyleSheet.create({
+  guestSelectButtonsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
+  container: {
+    backgroundColor: "#fff",
+    flex: 1
+  },
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 30
+  },
+  titleText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  plusSign: {
+    fontSize: 32
+  }
+});
+
+const getCoupleKey = (guest, coupledGuestsIdMap) => {
+  let coupleKey;
+
+  _.each(coupledGuestsIdMap, (value, key) => {
+    if (value === guest.id || key === guest.id) {
+      coupleKey = key;
+      return false; // exit loop early
+    }
+  });
+
+  return coupleKey;
+};
+
+const removeCouple = (selectedGuest, coupledGuestsIdMap) => {
+  const coupleKey = getCoupleKey(selectedGuest, coupledGuestsIdMap);
+  if (!coupleKey) {
+    throw Error("coupleKey should exist");
+  }
+
+  return {
+    coupledGuestsIdMap: _.omit(coupledGuestsIdMap, coupleKey)
+  };
+};
+
+const addCouple = (selectedGuest, stagedGuest, coupledGuestsIdMap) => {
+  return {
+    stagedGuest: null,
+    coupledGuestsIdMap: {
+      ...coupledGuestsIdMap,
+      [stagedGuest.id]: selectedGuest.id
+    }
+  };
+};
 
 export default class CoupleScreen extends React.Component {
-  state = {
-    coupledGuestsIdMap: {},
-    stagedGuest: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      coupledGuestsIdMap: {},
+      stagedGuest: null
+    };
 
-  onPressGuest = selectedGuest => {
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onPressGuest(selectedGuest) {
     this.setState(({ coupledGuestsIdMap, stagedGuest }) => {
       const isSelectedGuestInStaging = stagedGuest === selectedGuest;
-      const isSelectedGuestCoupled = this.getCoupleKey(
+      const isSelectedGuestCoupled = getCoupleKey(
         selectedGuest,
         coupledGuestsIdMap
       );
 
       if (isSelectedGuestInStaging) {
         return { stagedGuest: null };
-      } else if (isSelectedGuestCoupled) {
-        return this.removeCouple(selectedGuest, coupledGuestsIdMap);
-      } else if (stagedGuest) {
-        return this.addCouple(selectedGuest, stagedGuest, coupledGuestsIdMap);
-      } else {
-        return { stagedGuest: selectedGuest };
       }
-    });
-  };
-
-  removeCouple = (selectedGuest, coupledGuestsIdMap) => {
-    let coupleKey = this.getCoupleKey(selectedGuest, coupledGuestsIdMap);
-    if (!coupleKey) {
-      throw Error('coupleKey should exist');
-    }
-
-    return {
-      coupledGuestsIdMap: _.omit(coupledGuestsIdMap, coupleKey)
-    };
-  };
-
-  getCoupleKey = (guest, coupledGuestsIdMap) => {
-    let coupleKey;
-
-    _.each(coupledGuestsIdMap, (value, key) => {
-      if (value === guest.id || key === guest.id) {
-        coupleKey = key;
-        return false; // exit loop early
+      if (isSelectedGuestCoupled) {
+        return removeCouple(selectedGuest, coupledGuestsIdMap);
       }
+      if (stagedGuest) {
+        return addCouple(selectedGuest, stagedGuest, coupledGuestsIdMap);
+      }
+
+      return { stagedGuest: selectedGuest };
     });
+  }
 
-    return coupleKey;
-  };
-
-  addCouple = (selectedGuest, stagedGuest, coupledGuestsIdMap) => ({
-    stagedGuest: null,
-    coupledGuestsIdMap: Object.assign({}, coupledGuestsIdMap, {
-      [stagedGuest.id]: selectedGuest.id
-    })
-  });
-
-  onSubmit = () => {
+  onSubmit() {
+    const { navigation } = this.props;
+    const { coupledGuestsIdMap } = this.state;
     const selectedGuests = this.getSelectedGuests();
     const sleepers = convertGuestsToSleepers(
       selectedGuests,
-      this.state.coupledGuestsIdMap
+      coupledGuestsIdMap
     );
-    this.props.navigation.navigate('Assignment', { sleepers });
-  };
 
-  scrollToBottom = () => {
-    setTimeout(() => {
-      this._scrollView.scrollToEnd({ animated: true });
-    }, 100);
-  };
+    navigation.navigate("Assignment", { sleepers });
+  }
 
-  getSelectedGuests = () =>
-    this.props.navigation.getParam('selectedGuests', []);
+  getSelectedGuests() {
+    const { navigation } = this.props;
 
-  getCouples = () => {
+    return navigation.getParam("selectedGuests", []);
+  }
+
+  getCouples() {
     const { coupledGuestsIdMap } = this.state;
     const selectedGuests = this.getSelectedGuests();
 
@@ -91,7 +125,7 @@ export default class CoupleScreen extends React.Component {
       _.find(selectedGuests, { id: ids[1] })
     ]);
     // map over pairs and get couples
-  };
+  }
 
   render() {
     const { stagedGuest, coupledGuestsIdMap } = this.state;
@@ -103,7 +137,6 @@ export default class CoupleScreen extends React.Component {
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
-          ref={c => (this._scrollView = c)}
         >
           <Text style={styles.titleText}>Select couples</Text>
 
@@ -118,7 +151,7 @@ export default class CoupleScreen extends React.Component {
                 onPress={() => this.onPressGuest(guest)}
                 selected={
                   guest === stagedGuest ||
-                  this.getCoupleKey(guest, coupledGuestsIdMap)
+                  getCoupleKey(guest, coupledGuestsIdMap)
                 }
               />
             ))}
@@ -133,27 +166,3 @@ export default class CoupleScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  guestSelectButtonsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center'
-  },
-  container: {
-    backgroundColor: '#fff',
-    flex: 1
-  },
-  contentContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 30
-  },
-  titleText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  plusSign: {
-    fontSize: 32
-  }
-});

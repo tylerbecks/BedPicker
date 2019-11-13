@@ -4,16 +4,21 @@ export default class Sleeper {
     this.nextAssignedIndex = 0;
   }
 
-  getGuest = () => {
+  getGuest() {
     if (this.allAsigned()) {
-      throw new Error('All guests already assigned');
+      throw new Error("All guests already assigned");
     }
     const guest = this.guests[this.nextAssignedIndex];
-    this.nextAssignedIndex++;
+    this.nextAssignedIndex += 1;
+
     return guest;
-  };
+  }
 
-  allAsigned = () => this.nextAssignedIndex >= this.guests.length;
+  allAsigned() {
+    return this.nextAssignedIndex >= this.guests.length;
+  }
 
-  getUnassignedGuestCount = () => this.guests.length - this.nextAssignedIndex;
+  getUnassignedGuestCount() {
+    return this.guests.length - this.nextAssignedIndex;
+  }
 }

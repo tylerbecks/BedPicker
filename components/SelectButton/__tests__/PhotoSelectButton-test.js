@@ -1,9 +1,9 @@
-import 'react-native';
-import React from 'react';
-import PhotoSelectButton from '../PhotoSelectButton';
-import renderer from 'react-test-renderer';
+import "react-native";
+import React from "react";
+import PhotoSelectButton from "../PhotoSelectButton";
+import renderer from "react-test-renderer";
 
-it('renders with guest name when selected', () => {
+it("renders with guest name when selected", () => {
   expect(
     renderer
       .create(
@@ -13,7 +13,7 @@ it('renders with guest name when selected', () => {
   ).toMatchSnapshot();
 });
 
-it('renders with image when not selected', () => {
+it("renders with image when not selected", () => {
   expect(
     renderer
       .create(

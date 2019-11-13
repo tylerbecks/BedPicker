@@ -1,5 +1,48 @@
-import React from 'react';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import React from "react";
+import { Image, StyleSheet, View, Text } from "react-native";
+
+const AVATAR_SIZE = 40;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    marginBottom: 20,
+    flexWrap: "wrap"
+  },
+  couple: {
+    alignItems: "center",
+    flexDirection: "row",
+    margin: 10
+  },
+  circle: {
+    alignItems: "center",
+    backgroundColor: "#CFD8DC",
+    borderColor: "black",
+    borderRadius: AVATAR_SIZE / 2,
+    borderWidth: 2,
+    height: AVATAR_SIZE,
+    width: AVATAR_SIZE
+  },
+  firstImage: {
+    zIndex: 2
+  },
+  secondImage: {
+    marginLeft: -7,
+    zIndex: 1
+  },
+  textContainer: {
+    backgroundColor: "#2196F3",
+    justifyContent: "center"
+  },
+  text: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: "center"
+  }
+});
+
+const getFirstInitial = name => name.charAt(0);
 
 const CoupleGallery = ({ couples }) => (
   <View style={styles.container}>
@@ -28,46 +71,3 @@ const ImageOrTextCircle = ({ style, guest }) =>
   );
 
 export default CoupleGallery;
-
-const AVATAR_SIZE = 40;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    marginBottom: 20,
-    flexWrap: 'wrap'
-  },
-  couple: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    margin: 10
-  },
-  circle: {
-    alignItems: 'center',
-    backgroundColor: '#CFD8DC',
-    borderColor: 'black',
-    borderRadius: AVATAR_SIZE / 2,
-    borderWidth: 2,
-    height: AVATAR_SIZE,
-    width: AVATAR_SIZE
-  },
-  firstImage: {
-    zIndex: 2
-  },
-  secondImage: {
-    marginLeft: -7,
-    zIndex: 1
-  },
-  textContainer: {
-    backgroundColor: '#2196F3',
-    justifyContent: 'center'
-  },
-  text: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  }
-});
-
-const getFirstInitial = name => name.charAt(0);

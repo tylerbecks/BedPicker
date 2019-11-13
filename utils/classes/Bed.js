@@ -1,4 +1,4 @@
-import { KING, QUEEN, FULL, TWIN } from '../../constants/BedTypes';
+import { KING, QUEEN, FULL, TWIN } from "../../constants/BedTypes";
 
 const CAPACITIES = {
   [KING]: 2,
@@ -15,12 +15,15 @@ export default class Bed {
     this.capacity = CAPACITIES[type];
   }
 
-  add = guest => {
+  add(guest) {
     if (this.isFull()) {
-      throw new Error('No more room in this bed!');
+      throw new Error("No more room in this bed!");
     }
-    this.guests.push(guest);
-  };
 
-  isFull = () => this.guests.length >= this.capacity;
+    this.guests.push(guest);
+  }
+
+  isFull() {
+    return this.guests.length >= this.capacity;
+  }
 }
