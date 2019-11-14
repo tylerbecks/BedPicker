@@ -111,17 +111,3 @@ export default ({ onSubmit, isVisible, close, placeholder }) => {
     </Modal>
   );
 };
-
-// export default class MultiAddModal extends React.Component {
-//   componentWillReceiveProps(nextProps) {
-//     if (!nextProps.isVisible && this.textInput) {
-//       this.textInput.blur();
-//     }
-
-//     if (nextProps.isVisible) {
-//       setTimeout(() => {
-//         this.textInput.focus();
-//       }, 20);
-//     }
-//   }
-// }

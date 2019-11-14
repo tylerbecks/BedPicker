@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 import BedSection from "../components/BedSection";
 import AvatarItem from "../components/AvatarItem";
@@ -32,38 +32,21 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class AssignmentScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      assignment: null
-    };
+export default ({ navigation }) => {
+  const [assignment, setAssignment] = useState(null);
+  let sleepers = navigation.getParam("sleepers", []);
 
-    this.sleepers = null;
-  }
-
-  componentDidMount() {
-    const { navigation } = this.props;
-
-    const sleepers = navigation.getParam("sleepers", []);
-    this.setAssignment(sleepers);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const sleepers = nextProps.navigation.getParam("sleepers", []);
-    if (sleepers !== this.sleepers) {
-      this.setAssignment(sleepers);
-    }
-  }
-
-  setAssignment(sleepers) {
-    this.sleepers = sleepers;
+  const onChangeAssignment = newSleepers => {
+    sleepers = newSleepers;
     const assigner = new Assigner(sleepers, getTahoeBeds());
-    this.setState({ assignment: assigner.createAssignment() });
-  }
+    setAssignment(assigner.createAssignment());
+  };
 
-  getFormattedDate() {
-    const { assignment } = this.state;
+  useEffect(() => {
+    onChangeAssignment(sleepers);
+  }, [sleepers]);
+
+  const getFormattedDate = () => {
     if (!assignment || !assignment.date) {
       throw Error("expected assignment date to exist!");
     }
@@ -78,33 +61,29 @@ export default class AssignmentScreen extends React.Component {
       hour: "numeric",
       minute: "numeric"
     });
+  };
+
+  if (!assignment) {
+    return null;
   }
 
-  render() {
-    const { assignment } = this.state;
-
-    if (!assignment) {
-      return null;
-    }
-
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
-          {assignment.beds.map(({ name, guests }) => (
-            <BedSection key={name} name={name} guests={guests} />
-          ))}
-          <Text style={styles.sectionHeader}>Guests without beds</Text>
-          {assignment.guestsWithoutBeds.map(guest => (
-            <AvatarItem key={guest.id} text={guest.name} photo={guest.photo} />
-          ))}
-          <View style={styles.dateContainer}>
-            <Text style={styles.date}>{this.getFormattedDate()}</Text>
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        {assignment.beds.map(({ name, guests }) => (
+          <BedSection key={name} name={name} guests={guests} />
+        ))}
+        <Text style={styles.sectionHeader}>Guests without beds</Text>
+        {assignment.guestsWithoutBeds.map(guest => (
+          <AvatarItem key={guest.id} text={guest.name} photo={guest.photo} />
+        ))}
+        <View style={styles.dateContainer}>
+          <Text style={styles.date}>{getFormattedDate()}</Text>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
