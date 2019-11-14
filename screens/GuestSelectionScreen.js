@@ -1,5 +1,5 @@
-import React from "react";
-import _ from "lodash";
+import React, { useState, useRef } from "react";
+import { concat, uniqueId, without } from "lodash";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import CircleButton from "../components/CircleButton";
 import MultiAddModal from "../components/MultiAddModal";
@@ -31,105 +31,172 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class AssignmentScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedGuests: [],
-      guests: DEFAULT_GUESTS,
-      isModalVisible: false
-    };
+export default ({ navigation }) => {
+  const [selectedGuests, setSelectedGuests] = useState([]);
+  const [guests, setGuests] = useState(DEFAULT_GUESTS);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const scrollView = useRef(null);
 
-    this.onClickNext = this.onClickNext.bind(this);
-    this.addGuest = this.addGuest.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.openModal = this.openModal.bind(this);
-  }
-
-  onPressGuest(guest) {
-    const { selectedGuests } = this.state;
+  const onPressGuest = guest => {
     const newSelectedGuests = selectedGuests.includes(guest)
-      ? _.without(selectedGuests, guest)
-      : _.concat(selectedGuests, guest);
+      ? without(selectedGuests, guest)
+      : concat(selectedGuests, guest);
 
-    this.setState({ selectedGuests: newSelectedGuests });
-  }
+    setSelectedGuests(newSelectedGuests);
+  };
 
-  onClickNext() {
-    const { navigation } = this.props;
-    const { selectedGuests } = this.state;
-
+  const onClickNext = () => {
     navigation.push("Couple", { selectedGuests });
-  }
+  };
 
-  addGuest(guestName) {
-    const { selectedGuests, guests } = this.state;
-    const newGuest = { id: _.uniqueId(), name: guestName, photo: null };
-
-    this.setState({
-      guests: guests.concat(newGuest),
-      selectedGuests: _.concat(selectedGuests, newGuest)
-    });
-    this.scrollToBottom();
-  }
-
-  openModal() {
-    this.setState({ isModalVisible: true });
-    this.scrollToBottom();
-  }
-
-  closeModal() {
-    this.setState({ isModalVisible: false });
-  }
-
-  scrollToBottom() {
+  const scrollToBottom = () => {
     setTimeout(() => {
-      this.scrollView.scrollToEnd({ animated: true });
+      scrollView.current.scrollToEnd({ animated: true });
     }, 100);
-  }
+  };
 
-  render() {
-    const { selectedGuests, guests, isModalVisible } = this.state;
+  const addGuest = guestName => {
+    const newGuest = { id: uniqueId(), name: guestName, photo: null };
 
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-          ref={c => {
-            this.scrollView = c;
-          }}
-        >
-          <Text style={styles.titleText}>Who&apos;s here?</Text>
-          <View style={styles.guestSelectButtonsContainer}>
-            {guests.map(guest => (
-              <SelectButton
-                key={guest.name}
-                text={guest.name}
-                photo={guest.photo}
-                onPress={() => this.onPressGuest(guest)}
-                selected={selectedGuests.includes(guest)}
-              />
-            ))}
-            <CircleButton onPress={this.openModal}>
-              <Text style={styles.plusSign}>+</Text>
-            </CircleButton>
-          </View>
-          <SubmitButton
-            onPress={this.onClickNext}
-            disabled={selectedGuests.length === 0}
-            text="Next"
-          />
-          {isModalVisible && <View style={{ height: 350 }} />}
-        </ScrollView>
+    setGuests(guests.concat(newGuest));
+    setSelectedGuests(concat(selectedGuests, newGuest));
+    scrollToBottom();
+  };
 
-        <MultiAddModal
-          placeholder="Guest name..."
-          isVisible={isModalVisible}
-          close={this.closeModal}
-          onSubmit={this.addGuest}
+  const openModal = () => {
+    setIsModalVisible(true);
+    scrollToBottom();
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        ref={scrollView}
+      >
+        <Text style={styles.titleText}>Who&apos;s here?</Text>
+        <View style={styles.guestSelectButtonsContainer}>
+          {guests.map(guest => (
+            <SelectButton
+              key={guest.name}
+              text={guest.name}
+              photo={guest.photo}
+              onPress={() => onPressGuest(guest)}
+              selected={selectedGuests.includes(guest)}
+            />
+          ))}
+          <CircleButton onPress={openModal}>
+            <Text style={styles.plusSign}>+</Text>
+          </CircleButton>
+        </View>
+        <SubmitButton
+          onPress={onClickNext}
+          disabled={selectedGuests.length === 0}
+          text="Next"
         />
-      </View>
-    );
-  }
-}
+        {isModalVisible && <View style={{ height: 350 }} />}
+      </ScrollView>
+
+      <MultiAddModal
+        placeholder="Guest name..."
+        isVisible={isModalVisible}
+        close={closeModal}
+        onSubmit={addGuest}
+      />
+    </View>
+  );
+};
+
+// class AssignmentScreen extends React.Component {
+//   onPressGuest(guest) {
+//     const { selectedGuests } = this.state;
+//     const newSelectedGuests = selectedGuests.includes(guest)
+//       ? _.without(selectedGuests, guest)
+//       : _.concat(selectedGuests, guest);
+
+//     this.setState({ selectedGuests: newSelectedGuests });
+//   }
+
+//   onClickNext() {
+//     const { navigation } = this.props;
+//     const { selectedGuests } = this.state;
+
+//     navigation.push("Couple", { selectedGuests });
+//   }
+
+//   addGuest(guestName) {
+//     const { selectedGuests, guests } = this.state;
+//     const newGuest = { id: _.uniqueId(), name: guestName, photo: null };
+
+//     this.setState({
+//       guests: guests.concat(newGuest),
+//       selectedGuests: _.concat(selectedGuests, newGuest)
+//     });
+//     this.scrollToBottom();
+//   }
+
+//   openModal() {
+//     this.setState({ isModalVisible: true });
+//     this.scrollToBottom();
+//   }
+
+//   closeModal() {
+//     this.setState({ isModalVisible: false });
+//   }
+
+//   scrollToBottom() {
+//     setTimeout(() => {
+//       this.scrollView.scrollToEnd({ animated: true });
+//     }, 100);
+//   }
+
+//   render() {
+//     const { selectedGuests, guests, isModalVisible } = this.state;
+
+//     return (
+//       <View style={styles.container}>
+//         <ScrollView
+//           style={styles.container}
+//           contentContainerStyle={styles.contentContainer}
+//           ref={c => {
+//             this.scrollView = c;
+//           }}
+//         >
+//           <Text style={styles.titleText}>Who&apos;s here?</Text>
+//           <View style={styles.guestSelectButtonsContainer}>
+//             {guests.map(guest => (
+//               <SelectButton
+//                 key={guest.name}
+//                 text={guest.name}
+//                 photo={guest.photo}
+//                 onPress={() => this.onPressGuest(guest)}
+//                 selected={selectedGuests.includes(guest)}
+//               />
+//             ))}
+//             <CircleButton onPress={this.openModal}>
+//               <Text style={styles.plusSign}>+</Text>
+//             </CircleButton>
+//           </View>
+//           <SubmitButton
+//             onPress={this.onClickNext}
+//             disabled={selectedGuests.length === 0}
+//             text="Next"
+//           />
+//           {isModalVisible && <View style={{ height: 350 }} />}
+//         </ScrollView>
+
+//         <MultiAddModal
+//           placeholder="Guest name..."
+//           isVisible={isModalVisible}
+//           close={this.closeModal}
+//           onSubmit={this.addGuest}
+//         />
+//       </View>
+//     );
+//   }
+// }
