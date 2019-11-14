@@ -1,5 +1,5 @@
-import React from "react";
-import _ from "lodash";
+import React, { useState } from "react";
+import { each, omit, toPairs, map, find } from "lodash";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import CoupleGallery from "../components/CoupleGallery";
 import SelectButton from "../components/SelectButton";
@@ -30,139 +30,111 @@ const styles = StyleSheet.create({
   }
 });
 
-const getCoupleKey = (guest, coupledGuestsIdMap) => {
-  let coupleKey;
+export default ({ navigation }) => {
+  const [coupledGuestsIdMap, setCoupledGuestsIdMap] = useState({});
+  const [stagedGuest, setStagedGuest] = useState(null);
 
-  _.each(coupledGuestsIdMap, (value, key) => {
-    if (value === guest.id || key === guest.id) {
-      coupleKey = key;
-      return false; // exit loop early
-    }
-  });
-
-  return coupleKey;
-};
-
-const removeCouple = (selectedGuest, coupledGuestsIdMap) => {
-  const coupleKey = getCoupleKey(selectedGuest, coupledGuestsIdMap);
-  if (!coupleKey) {
-    throw Error("coupleKey should exist");
-  }
-
-  return {
-    coupledGuestsIdMap: _.omit(coupledGuestsIdMap, coupleKey)
-  };
-};
-
-const addCouple = (selectedGuest, stagedGuest, coupledGuestsIdMap) => {
-  return {
-    stagedGuest: null,
-    coupledGuestsIdMap: {
+  const addCouple = selectedGuest => {
+    setStagedGuest(null);
+    setCoupledGuestsIdMap({
       ...coupledGuestsIdMap,
       [stagedGuest.id]: selectedGuest.id
-    }
-  };
-};
-
-export default class CoupleScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      coupledGuestsIdMap: {},
-      stagedGuest: null
-    };
-
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onPressGuest(selectedGuest) {
-    this.setState(({ coupledGuestsIdMap, stagedGuest }) => {
-      const isSelectedGuestInStaging = stagedGuest === selectedGuest;
-      const isSelectedGuestCoupled = getCoupleKey(
-        selectedGuest,
-        coupledGuestsIdMap
-      );
-
-      if (isSelectedGuestInStaging) {
-        return { stagedGuest: null };
-      }
-      if (isSelectedGuestCoupled) {
-        return removeCouple(selectedGuest, coupledGuestsIdMap);
-      }
-      if (stagedGuest) {
-        return addCouple(selectedGuest, stagedGuest, coupledGuestsIdMap);
-      }
-
-      return { stagedGuest: selectedGuest };
     });
-  }
+  };
 
-  onSubmit() {
-    const { navigation } = this.props;
-    const { coupledGuestsIdMap } = this.state;
-    const selectedGuests = this.getSelectedGuests();
+  const getCoupleKey = guest => {
+    let coupleKey;
+
+    each(coupledGuestsIdMap, (value, key) => {
+      if (value === guest.id || key === guest.id) {
+        coupleKey = key;
+        return false; // exit loop early
+      }
+    });
+
+    return coupleKey;
+  };
+
+  const removeCouple = selectedGuest => {
+    const coupleKey = getCoupleKey(selectedGuest);
+    if (!coupleKey) {
+      throw Error("coupleKey should exist");
+    }
+
+    setCoupledGuestsIdMap(omit(coupledGuestsIdMap, coupleKey));
+  };
+
+  const onPressGuest = selectedGuest => {
+    const isSelectedGuestInStaging = stagedGuest === selectedGuest;
+    const isSelectedGuestCoupled = getCoupleKey(selectedGuest);
+
+    if (isSelectedGuestInStaging) {
+      setStagedGuest(null);
+      return;
+    }
+    if (isSelectedGuestCoupled) {
+      removeCouple(selectedGuest);
+      return;
+    }
+    if (stagedGuest) {
+      addCouple(selectedGuest);
+      return;
+    }
+
+    setStagedGuest(selectedGuest);
+  };
+
+  const getSelectedGuests = () => {
+    return navigation.getParam("selectedGuests", []);
+  };
+
+  const onSubmit = () => {
+    const selectedGuests = getSelectedGuests();
     const sleepers = convertGuestsToSleepers(
       selectedGuests,
       coupledGuestsIdMap
     );
 
     navigation.navigate("Assignment", { sleepers });
-  }
+  };
 
-  getSelectedGuests() {
-    const { navigation } = this.props;
+  const getCouples = () => {
+    const selectedGuests = getSelectedGuests();
 
-    return navigation.getParam("selectedGuests", []);
-  }
-
-  getCouples() {
-    const { coupledGuestsIdMap } = this.state;
-    const selectedGuests = this.getSelectedGuests();
-
-    const coupleIds = _.toPairs(coupledGuestsIdMap);
-    return _.map(coupleIds, ids => [
-      _.find(selectedGuests, { id: ids[0] }),
-      _.find(selectedGuests, { id: ids[1] })
+    const coupleIds = toPairs(coupledGuestsIdMap);
+    return map(coupleIds, ids => [
+      find(selectedGuests, { id: ids[0] }),
+      find(selectedGuests, { id: ids[1] })
     ]);
     // map over pairs and get couples
-  }
+  };
 
-  render() {
-    const { stagedGuest, coupledGuestsIdMap } = this.state;
-    const selectedGuests = this.getSelectedGuests();
-    const couples = this.getCouples();
+  const selectedGuests = getSelectedGuests();
+  const couples = getCouples();
 
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <Text style={styles.titleText}>Select couples</Text>
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <Text style={styles.titleText}>Select couples</Text>
 
-          <CoupleGallery couples={couples} />
+        <CoupleGallery couples={couples} />
 
-          <View style={styles.guestSelectButtonsContainer}>
-            {selectedGuests.map(guest => (
-              <SelectButton
-                key={guest.name}
-                text={guest.name}
-                photo={guest.photo}
-                onPress={() => this.onPressGuest(guest)}
-                selected={
-                  guest === stagedGuest ||
-                  getCoupleKey(guest, coupledGuestsIdMap)
-                }
-              />
-            ))}
-          </View>
-          <SubmitButton
-            onPress={this.onSubmit}
-            disabled={false}
-            text="Submit"
-          />
-        </ScrollView>
-      </View>
-    );
-  }
-}
+        <View style={styles.guestSelectButtonsContainer}>
+          {selectedGuests.map(guest => (
+            <SelectButton
+              key={guest.name}
+              text={guest.name}
+              photo={guest.photo}
+              onPress={() => onPressGuest(guest)}
+              selected={guest === stagedGuest || getCoupleKey(guest)}
+            />
+          ))}
+        </View>
+        <SubmitButton onPress={onSubmit} disabled={false} text="Submit" />
+      </ScrollView>
+    </View>
+  );
+};
